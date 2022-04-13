@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/imageLetra"
+        android:layout_width="match_parent"
+        android:layout_height="25pt"
+        android:layout_marginStart="10pt">
+
+        <View
+            android:id="@+id/view3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="3pt"
+            android:background="@drawable/bg_button_redonded"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/nameTema"
+            app:layout_constraintEnd_toEndOf="@+id/nameTema"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textViewLetra" />
+
+        <TextView
+            android:id="@+id/textViewLetra"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3pt"
+            android:text="T"
+            android:textColor="@color/ColorTextSecondary"
+            android:textSize="21pt"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/nameTema"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0pt"
+            android:paddingEnd="10pt"
+            android:paddingBottom="0pt"
+            android:text="extView"
+            android:textColor="@color/ColorTextSecondary"
+            android:textSize="12pt"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textViewLetra" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</RelativeLayout>

@@ -1,0 +1,15 @@
+<resources>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="load_picture" translatable="false">Load Picture</string>
+    <string name="load_video" translatable="false">Load Video</string>
+    <string name="start_camera" translatable="false">Start Camera</string>
+    <string name="instruction" translatable="false">Please press any button above to start</string>
+    <string name="app_name" ><font fgcolor='#FF000000'>SinSeñas</font></string>
+    <string name="app_inicio" ><font fgcolor='#FF000000'>Inicio</font></string>
+    <string name="app_Menu"><font fgcolor='#FF000000'>Aprendizaje</font></string>
+    <string name="app_categoria"><font fgcolor='#FF000000'>Categoria</font></string>
+    <string name="app_traductor"><font fgcolor='#FF000000'>Traductor</font></string>
+    <string name="text_subtitulo">Subtitulo</string>
+</resources>
