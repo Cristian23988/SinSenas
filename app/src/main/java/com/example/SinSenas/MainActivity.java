@@ -15,6 +15,8 @@ import com.example.SinSenas.db.DbDescripcion;
 import com.example.SinSenas.db.DbHelper;
 import com.example.SinSenas.R;
 
+import java.io.File;
+
 public class MainActivity extends AppCompatActivity {
 
     public static final String EXTRA_MESSAGE = "com.example.mediapipe.MESSAGE";

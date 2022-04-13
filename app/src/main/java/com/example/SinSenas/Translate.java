@@ -81,7 +81,7 @@ public class Translate extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
+                R.id.navigation_home)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
@@ -90,7 +90,7 @@ public class Translate extends AppCompatActivity {
         //setContentView(R.layout.activity_main);
         setupStaticImageDemoUiComponents();
         setupVideoDemoUiComponents();
-        //setupLiveDemoUiComponents();
+        setupLiveDemoUiComponents();
     }
 
     @Override
@@ -257,6 +257,7 @@ public class Translate extends AppCompatActivity {
                         });
         Button loadVideoButton = findViewById(R.id.button_load_video);
         loadVideoButton.setOnClickListener(
+
                 v -> {
                     stopCurrentPipeline();
                     setupStreamingModePipeline(InputSource.VIDEO);
@@ -361,10 +362,14 @@ public class Translate extends AppCompatActivity {
         }
         NormalizedLandmark wristLandmark =
                 result.multiHandLandmarks().get(0).getLandmarkList().get(HandLandmark.WRIST);
+
         // For Bitmaps, show the pixel values. For texture inputs, show the normalized coordinates.
         if (showPixelValues) {
             int width = result.inputBitmap().getWidth();
             int height = result.inputBitmap().getHeight();
+            Log.i("RESULTADO EN X a",String.valueOf(wristLandmark.getX()* width));
+            Log.i("RESULTADO EN Y ",String.valueOf(wristLandmark.getY()* height));
+            Log.i("RESULTADO EN Z ",String.valueOf(wristLandmark.getZ()));
             Log.i(
                     TAG,
                     String.format(

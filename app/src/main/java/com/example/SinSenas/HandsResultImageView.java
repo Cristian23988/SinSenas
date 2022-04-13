@@ -20,6 +20,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.util.Log;
+import android.widget.Toast;
+
 import androidx.appcompat.widget.AppCompatImageView;
 import com.google.mediapipe.formats.proto.LandmarkProto;
 import com.google.mediapipe.formats.proto.LandmarkProto.NormalizedLandmark;
@@ -90,6 +93,7 @@ public class HandsResultImageView extends AppCompatImageView {
       int width,
       int height) {
     // Draw connections.
+
     for (Hands.Connection c : Hands.HAND_CONNECTIONS) {
       Paint connectionPaint = new Paint();
       connectionPaint.setColor(
@@ -97,6 +101,12 @@ public class HandsResultImageView extends AppCompatImageView {
       connectionPaint.setStrokeWidth(CONNECTION_THICKNESS);
       NormalizedLandmark start = handLandmarkList.get(c.start());
       NormalizedLandmark end = handLandmarkList.get(c.end());
+      //Toast.makeText(HandsResultImageView.this, "Has pulsado: " + start.getX(), Toast.LENGTH_LONG).show();
+      Log.i("inicio GET X", String.valueOf(start.getX()* width));
+      Log.i("inicio GET Y", String.valueOf(start.getX()* height));
+      Log.i("fin GET X", String.valueOf(end.getX()* width));
+      Log.i("fin GET Y", String.valueOf(end.getX()* height));
+      Log.i("Conection Paint", String.valueOf(connectionPaint));
       canvas.drawLine(
           start.getX() * width,
           start.getY() * height,
@@ -123,5 +133,17 @@ public class HandsResultImageView extends AppCompatImageView {
           LANDMARK_RADIUS + HOLLOW_CIRCLE_WIDTH,
           landmarkPaint);
     }
+
+    Paint PointsNumber = new Paint();
+    PointsNumber.setColor(Color.BLACK);
+    PointsNumber.setStrokeWidth(HOLLOW_CIRCLE_WIDTH);
+    PointsNumber.setStyle(Paint.Style.STROKE);
+    int idPoint=0;
+    for (LandmarkProto.NormalizedLandmark landmark : handLandmarkList) {
+      canvas.drawText(String.valueOf(idPoint), landmark.getX() * width, landmark.getY() * height, PointsNumber);
+    idPoint=idPoint+1;
+    }
+
+
   }
 }

@@ -15,6 +15,9 @@
 package com.example.SinSenas;
 
 import android.opengl.GLES20;
+import android.util.Log;
+import android.widget.TextView;
+
 import com.google.mediapipe.formats.proto.LandmarkProto.NormalizedLandmark;
 import com.google.mediapipe.solutioncore.ResultGlRenderer;
 import com.google.mediapipe.solutions.hands.Hands;
@@ -120,6 +123,12 @@ public class HandsResultGlRenderer implements ResultGlRenderer<HandsResult> {
       NormalizedLandmark start = handLandmarkList.get(c.start());
       NormalizedLandmark end = handLandmarkList.get(c.end());
       float[] vertex = {start.getX(), start.getY(), end.getX(), end.getY()};
+
+      Log.i("inicio GET X", String.valueOf(start.getX()));
+      Log.i("inicio GET Y", String.valueOf(start.getX()));
+      Log.i("fin GET X", String.valueOf(end.getX()));
+      Log.i("fin GET Y", String.valueOf(end.getX()));
+/*
       FloatBuffer vertexBuffer =
           ByteBuffer.allocateDirect(vertex.length * 4)
               .order(ByteOrder.nativeOrder())
@@ -128,7 +137,7 @@ public class HandsResultGlRenderer implements ResultGlRenderer<HandsResult> {
       vertexBuffer.position(0);
       GLES20.glEnableVertexAttribArray(positionHandle);
       GLES20.glVertexAttribPointer(positionHandle, 2, GLES20.GL_FLOAT, false, 0, vertexBuffer);
-      GLES20.glDrawArrays(GLES20.GL_LINES, 0, 2);
+      GLES20.glDrawArrays(GLES20.GL_LINES, 0, 2);*/
     }
   }
 
@@ -146,6 +155,7 @@ public class HandsResultGlRenderer implements ResultGlRenderer<HandsResult> {
       vertices[currentIndex + 1] = y + (float) (LANDMARK_RADIUS * Math.sin(angle));
       vertices[currentIndex + 2] = 0;
     }
+/*
     FloatBuffer vertexBuffer =
         ByteBuffer.allocateDirect(vertices.length * 4)
             .order(ByteOrder.nativeOrder())
@@ -154,7 +164,7 @@ public class HandsResultGlRenderer implements ResultGlRenderer<HandsResult> {
     vertexBuffer.position(0);
     GLES20.glEnableVertexAttribArray(positionHandle);
     GLES20.glVertexAttribPointer(positionHandle, 3, GLES20.GL_FLOAT, false, 0, vertexBuffer);
-    GLES20.glDrawArrays(GLES20.GL_TRIANGLE_FAN, 0, vertexCount);
+    GLES20.glDrawArrays(GLES20.GL_TRIANGLE_FAN, 0, vertexCount);*/
   }
 
   private void drawHollowCircle(float x, float y, float[] colorArray) {

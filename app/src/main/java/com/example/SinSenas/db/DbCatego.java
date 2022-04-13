@@ -56,7 +56,6 @@ public class DbCatego extends DbHelper {
         cursorCateg.close();
         Log.i("", String.valueOf(ListaCatego));
         return ListaCatego;
-
     }
 
 }

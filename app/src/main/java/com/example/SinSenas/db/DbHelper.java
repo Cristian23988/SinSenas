@@ -6,6 +6,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+
 public class DbHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NOMBRE = "Aprendizaje.db";
@@ -14,10 +21,21 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public DbHelper(@Nullable Context context) {
         super(context, DATABASE_NOMBRE, null, DATABASE_VERSION);
+
+      /*  File directory = context.getFilesDir();
+        File file = new File(directory, "ARCHIVO");
+        try {
+            File.createTempFile("ARCHIVO", null, context.getCacheDir());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+
+
         sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_CATEGO + "(" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "imagen INTEGER NOT NULL," +
