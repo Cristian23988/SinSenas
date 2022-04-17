@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -61,12 +62,12 @@ public class MainActivity extends AppCompatActivity {
     public void createDB() {
         DbHelper dbHelper = new DbHelper(MainActivity.this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        createDatos();
+        db.delete("categorias",null,null);
+        db.delete("descripcion",null,null);
         if (db != null) {
-            // Toast.makeText(MainActivity.this, "Base de datos creada", Toast.LENGTH_LONG).show();
-
+          createDatos();
         } else {
-            //   Toast.makeText(MainActivity.this, "ERROR AL CREAR BD", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "ERROR AL CREAR BD", Toast.LENGTH_LONG).show();
 
         }
     }
@@ -74,11 +75,11 @@ public class MainActivity extends AppCompatActivity {
     public void createDatos() {
 
         //---------------------------------CATEGORIAS
-        String[] paises = {"Diccionario", "Alfabeto", "Frases", "Expresiones"};
+        String[] categorias = {"Diccionario", "Alfabeto", "Frases", "Expresiones"};
         DbCatego dbcatego = new DbCatego(MainActivity.this);
-        for (int i = 0; i < paises.length; i++) {
-            dbcatego.insertCatego(paises[i]);
-            Log.i("asd ",paises[i]);
+
+        for (int i = 0; i < categorias.length; i++) {
+            dbcatego.insertCatego(categorias[i]);
         }
 
 

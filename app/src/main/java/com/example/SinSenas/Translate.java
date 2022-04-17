@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.example.SinSenas.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -355,6 +356,14 @@ public class Translate extends AppCompatActivity {
             hands.close();
         }
     }
+    public void coordenadas (float IX , float IF, float FX, float FY){
+        String cordenadas ="GetInit X: "+IX+", GetInit Y:"+IF+", GetFin X: "+FX+",GetFin Y: "+FY;
+       // Toast.makeText(this, ""+cordenadas, Toast.LENGTH_SHORT).show();
+        Log.i("inicio GET X", String.valueOf(IX));
+        Log.i("inicio GET Y", String.valueOf(IF));
+        Log.i("fin GET X", String.valueOf(FX));
+        Log.i("fin GET Y", String.valueOf(FY));
+    }
 
     private void logWristLandmark(HandsResult result, boolean showPixelValues) {
         if (result.multiHandLandmarks().isEmpty()) {
@@ -367,7 +376,7 @@ public class Translate extends AppCompatActivity {
         if (showPixelValues) {
             int width = result.inputBitmap().getWidth();
             int height = result.inputBitmap().getHeight();
-            Log.i("RESULTADO EN X a",String.valueOf(wristLandmark.getX()* width));
+            Log.i("RESULTADO EN X ",String.valueOf(wristLandmark.getX()* width));
             Log.i("RESULTADO EN Y ",String.valueOf(wristLandmark.getY()* height));
             Log.i("RESULTADO EN Z ",String.valueOf(wristLandmark.getZ()));
             Log.i(

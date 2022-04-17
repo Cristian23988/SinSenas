@@ -14,10 +14,13 @@
 
 package com.example.SinSenas;
 
+import android.app.Activity;
 import android.opengl.GLES20;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.material.internal.ContextUtils;
 import com.google.mediapipe.formats.proto.LandmarkProto.NormalizedLandmark;
 import com.google.mediapipe.solutioncore.ResultGlRenderer;
 import com.google.mediapipe.solutions.hands.Hands;
@@ -124,10 +127,13 @@ public class HandsResultGlRenderer implements ResultGlRenderer<HandsResult> {
       NormalizedLandmark end = handLandmarkList.get(c.end());
       float[] vertex = {start.getX(), start.getY(), end.getX(), end.getY()};
 
-      Log.i("inicio GET X", String.valueOf(start.getX()));
+      Translate tran = new Translate();
+     // tran.coordenadas(start.getX(),start.getX(),start.getX(),start.getX());
+     /* Log.i("inicio GET X", String.valueOf(start.getX()));
       Log.i("inicio GET Y", String.valueOf(start.getX()));
       Log.i("fin GET X", String.valueOf(end.getX()));
-      Log.i("fin GET Y", String.valueOf(end.getX()));
+      Log.i("fin GET Y", String.valueOf(end.getX()));*/
+
 /*
       FloatBuffer vertexBuffer =
           ByteBuffer.allocateDirect(vertex.length * 4)

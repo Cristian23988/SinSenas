@@ -1,10 +1,15 @@
 package com.example.SinSenas.db;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+
+import com.example.SinSenas.MainActivity;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -22,38 +27,32 @@ public class DbHelper extends SQLiteOpenHelper {
     public DbHelper(@Nullable Context context) {
         super(context, DATABASE_NOMBRE, null, DATABASE_VERSION);
 
-      /*  File directory = context.getFilesDir();
-        File file = new File(directory, "ARCHIVO");
-        try {
-            File.createTempFile("ARCHIVO", null, context.getCacheDir());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        sqLiteDatabase.execSQL(DATABASE_TABLE_CATEGO);
+        sqLiteDatabase.execSQL(DATABASE_TABLE_DESCRIPCION);
+    }
 
+    public static final String DATABASE_TABLE_CATEGO = "CREATE TABLE " + TABLE_CATEGO + "(" +
+            "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "imagen INTEGER NOT NULL," +
+            "nombre TEXT NOT NULL)";
 
-        sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_CATEGO + "(" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "imagen INTEGER NOT NULL," +
-                "nombre TEXT NOT NULL)");
-
-        sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_DESCRIPCION + "(" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "imagen INTEGER NOT NULL," +
-                "titulo TEXT NOT NULL," +
-                "descripcion TEXT NOT NULL," +
-                "id_Catego INTEGER)");
-            }
+    public static final String DATABASE_TABLE_DESCRIPCION = "CREATE TABLE " + TABLE_DESCRIPCION + "(" +
+            "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "imagen INTEGER NOT NULL," +
+            "titulo TEXT NOT NULL," +
+            "descripcion TEXT NOT NULL," +
+            "id_Catego INTEGER)";
 
 
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL("DROP TABLE " + TABLE_DESCRIPCION);
-        onCreate(sqLiteDatabase);
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGO);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_DESCRIPCION);
+        onCreate(db);
     }
 }

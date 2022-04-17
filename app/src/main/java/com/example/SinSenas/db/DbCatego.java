@@ -22,8 +22,17 @@ public class DbCatego extends DbHelper {
         this.context = context;
     }
 
+    public boolean Vacia(){
+        boolean rta;
+        DbHelper dbHelper=new DbHelper(context);
+        SQLiteDatabase db=dbHelper.getWritableDatabase();
+
+        return false;
+    }
     public long insertCatego(String nombre) {
         long id = 0;
+        boolean vacia=Vacia();
+        if (vacia==false){
         try {
             DbHelper dbHelper = new DbHelper(context);
             SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -33,6 +42,10 @@ public class DbCatego extends DbHelper {
             id = db.insert(TABLE_CATEGO, null, values);
         } catch (Exception ex) {
             ex.toString();
+        }
+            return id;
+        }else{
+
         }
         return id;
     }
