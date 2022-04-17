@@ -127,14 +127,6 @@ public class HandsResultGlRenderer implements ResultGlRenderer<HandsResult> {
       NormalizedLandmark end = handLandmarkList.get(c.end());
       float[] vertex = {start.getX(), start.getY(), end.getX(), end.getY()};
 
-      Translate tran = new Translate();
-     // tran.coordenadas(start.getX(),start.getX(),start.getX(),start.getX());
-     /* Log.i("inicio GET X", String.valueOf(start.getX()));
-      Log.i("inicio GET Y", String.valueOf(start.getX()));
-      Log.i("fin GET X", String.valueOf(end.getX()));
-      Log.i("fin GET Y", String.valueOf(end.getX()));*/
-
-/*
       FloatBuffer vertexBuffer =
           ByteBuffer.allocateDirect(vertex.length * 4)
               .order(ByteOrder.nativeOrder())
@@ -143,7 +135,7 @@ public class HandsResultGlRenderer implements ResultGlRenderer<HandsResult> {
       vertexBuffer.position(0);
       GLES20.glEnableVertexAttribArray(positionHandle);
       GLES20.glVertexAttribPointer(positionHandle, 2, GLES20.GL_FLOAT, false, 0, vertexBuffer);
-      GLES20.glDrawArrays(GLES20.GL_LINES, 0, 2);*/
+      GLES20.glDrawArrays(GLES20.GL_LINES, 0, 2);
     }
   }
 
@@ -160,9 +152,13 @@ public class HandsResultGlRenderer implements ResultGlRenderer<HandsResult> {
       vertices[currentIndex] = x + (float) (LANDMARK_RADIUS * Math.cos(angle));
       vertices[currentIndex + 1] = y + (float) (LANDMARK_RADIUS * Math.sin(angle));
       vertices[currentIndex + 2] = 0;
+      Log.i("------------------° ","-----------------------------------");
+      Log.i("Punto N° ",String.valueOf(i));
+      Log.i("Vertice X", String.valueOf(vertices[currentIndex]));
+      Log.i("Vertice Y", String.valueOf(vertices[currentIndex + 1]));
     }
-/*
-    FloatBuffer vertexBuffer =
+
+   /* FloatBuffer vertexBuffer =
         ByteBuffer.allocateDirect(vertices.length * 4)
             .order(ByteOrder.nativeOrder())
             .asFloatBuffer()
@@ -171,6 +167,7 @@ public class HandsResultGlRenderer implements ResultGlRenderer<HandsResult> {
     GLES20.glEnableVertexAttribArray(positionHandle);
     GLES20.glVertexAttribPointer(positionHandle, 3, GLES20.GL_FLOAT, false, 0, vertexBuffer);
     GLES20.glDrawArrays(GLES20.GL_TRIANGLE_FAN, 0, vertexCount);*/
+
   }
 
   private void drawHollowCircle(float x, float y, float[] colorArray) {
@@ -184,7 +181,7 @@ public class HandsResultGlRenderer implements ResultGlRenderer<HandsResult> {
       vertices[currentIndex + 1] = y + (float) (HOLLOW_CIRCLE_RADIUS * Math.sin(angle));
       vertices[currentIndex + 2] = 0;
     }
-    FloatBuffer vertexBuffer =
+    /*FloatBuffer vertexBuffer =
         ByteBuffer.allocateDirect(vertices.length * 4)
             .order(ByteOrder.nativeOrder())
             .asFloatBuffer()
@@ -192,6 +189,6 @@ public class HandsResultGlRenderer implements ResultGlRenderer<HandsResult> {
     vertexBuffer.position(0);
     GLES20.glEnableVertexAttribArray(positionHandle);
     GLES20.glVertexAttribPointer(positionHandle, 3, GLES20.GL_FLOAT, false, 0, vertexBuffer);
-    GLES20.glDrawArrays(GLES20.GL_LINE_STRIP, 0, vertexCount);
+    GLES20.glDrawArrays(GLES20.GL_LINE_STRIP, 0, vertexCount);*/
   }
 }
