@@ -3,7 +3,6 @@ package com.example.SinSenas;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -14,13 +13,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.SinSenas.db.DbCatego;
 import com.example.SinSenas.db.DbDescripcion;
 import com.example.SinSenas.db.DbHelper;
-import com.example.SinSenas.R;
-
-import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String EXTRA_MESSAGE = "com.example.mediapipe.MESSAGE";
+    public static final String EXTRA_MESSAGE = "com.example.SinSenas.MESSAGE";
 
 
     @Override
@@ -29,32 +25,34 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         AlertDialog.Builder showMessage = new AlertDialog.Builder(this);
-        Button btntraductor = (Button) findViewById(R.id.traductor);
-        Button btnaprednizaje = (Button) findViewById(R.id.aprendizaje);
-        //EditText textC = (EditText) findViewById(R.id.editTextTextPersonName);
+        Button btnHome = (Button) findViewById(R.id.btnHome);
+        Button btnTraductor = (Button) findViewById(R.id.btnTraductor);
+        Button btnAprednizaje = (Button) findViewById(R.id.btnAprendizaje);
 
-        createDB();
-
-
-        btnaprednizaje.setOnClickListener(new View.OnClickListener() {
+        btnHome.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+        btnAprednizaje.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, Menu.class);
-                //EditText editText = (EditText) findViewById(R.id.editTextTextPersonName);
-                //String message = editText.getText().toString();
                 String subtitle = "Categorias";
                 intent.putExtra(EXTRA_MESSAGE, subtitle);
                 startActivity(intent);
             }
         });
-        btntraductor.setOnClickListener(new View.OnClickListener() {
+        btnTraductor.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, Translate.class);
-                //EditText editText = (EditText) findViewById(R.id.editTextTextPersonName);
                 String subtitle = "Gestos a texto";
                 intent.putExtra(EXTRA_MESSAGE, subtitle);
                 startActivity(intent);
             }
         });
+
+        createDB();
 
 
     }
