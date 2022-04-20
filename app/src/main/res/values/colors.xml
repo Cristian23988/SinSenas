@@ -13,9 +13,13 @@
     <color name="ColorFondo">#EEEEEE</color>
     <color name="ColorAzul">#1687A7</color>
     <color name="ColorSecondary">#2ABBAC</color>
+    <color name="ColorTerceary">#90CAEA</color>
 
     <!--Text colors -->
     <color name="ColorTextPrimary">#334257</color>
     <color name="ColorTextSecondary">#126E82</color>
     <color name="ColorTextTerceary">#345B63</color>
+
+    <!--Buttons colors -->
+    <color name="ColorBtnHome">#54D4EA</color>
 </resources>

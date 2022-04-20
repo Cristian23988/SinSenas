@@ -43,7 +43,7 @@ import com.google.mediapipe.solutions.hands.HandsResult;
 
 
 public class Translate extends AppCompatActivity {
-
+    public static final String EXTRA_MESSAGE = "com.example.sinsenas.MESSAGE";
     private TranslateActivityMainBinding binding;
     private static final String TAG = "MainActivity";
 
@@ -78,15 +78,33 @@ public class Translate extends AppCompatActivity {
         binding = TranslateActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(binding.navView, navController);
+        /*Menu Nav*/
+        Button btnHome = (Button) findViewById(R.id.btnHome);
+        Button btnTraductor = (Button) findViewById(R.id.btnTraductor);
+        Button btnAprednizaje = (Button) findViewById(R.id.btnAprendizaje);
+
+        btnHome.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(Translate.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+        btnAprednizaje.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(Translate.this, Menu.class);
+                String subtitle = "Categorias";
+                intent.putExtra(EXTRA_MESSAGE, subtitle);
+                startActivity(intent);
+            }
+        });
+        btnTraductor.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(Translate.this, Translate.class);
+                String subtitle = "Gestos a texto";
+                intent.putExtra(EXTRA_MESSAGE, subtitle);
+                startActivity(intent);
+            }
+        });
 
         //setContentView(R.layout.activity_main);
         setupStaticImageDemoUiComponents();
