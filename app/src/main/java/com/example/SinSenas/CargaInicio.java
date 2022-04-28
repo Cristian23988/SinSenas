@@ -79,11 +79,6 @@ public class CargaInicio extends AppCompatActivity {
         }
     }
 
-    public void createDatosBD() {
-
-    }
-
-
     public void createDatosInicio() {
 
         //---------------------------------CATEGORIAS
