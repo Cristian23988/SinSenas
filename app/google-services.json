@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "910700449873",
+    "project_id": "sinsenasbd",
+    "storage_bucket": "sinsenasbd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:910700449873:android:e5458ae120bb204143e870",
+        "android_client_info": {
+          "package_name": "com.example.SinSenas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "910700449873-09le613eh10hr7789od16dgim9euldp8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcxwr9szQEzpZ5M7bZ1pxvxJYrwWJreEQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "910700449873-09le613eh10hr7789od16dgim9euldp8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
