@@ -13,11 +13,11 @@ import com.example.SinSenas.Class.ModeloTemario;
 
 import java.util.ArrayList;
 
-public class DbMano extends DbHelper {
+public class DbSena extends DbHelper {
 
     Context context;
 
-    public DbMano(@Nullable Context context) {
+    public DbSena(@Nullable Context context) {
         super(context);
         this.context = context;
     }
@@ -30,24 +30,20 @@ public class DbMano extends DbHelper {
         return false;
     }
 
-    public long insertMano(String sena, int idMano) {
+    public long insertSena(String sena) {
         long id = 0;
         boolean vacia=Vacia();
-        if (vacia==false){
             try {
                 DbHelper dbHelper = new DbHelper(context);
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
                 ContentValues values = new ContentValues();
-                values.put("mano", sena);
+                values.put("sena", sena);
                 id = db.insert(TABLE_SENA, null, values);
             } catch (Exception ex) {
                 ex.toString();
             }
             return id;
-        }else{
 
-        }
-        return id;
     }
 
     public ArrayList<ModeloTemario> mostrarSena() {

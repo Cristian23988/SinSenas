@@ -1,5 +1,7 @@
 package com.example.SinSenas;
 
+import com.example.SinSenas.Class.Sena;
+import com.example.SinSenas.db.DbSena;
 import com.google.firebase.database.DataSnapshot;
 
 import android.content.Intent;
@@ -32,7 +34,7 @@ public class CargaInicio extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carga_inicio);
         fireRta=(TextView) findViewById(R.id.rtaFirebase);
-
+        Continuar(5000);
     }
 
     @Override
@@ -46,7 +48,7 @@ public class CargaInicio extends AppCompatActivity {
                 String texto=snapshot.getValue().toString();
                     fireRta.setText(texto);
                     fireRta.setTextColor(Color.RED);
-                    Continuar(5000);
+
                 }
 
            // }
@@ -78,8 +80,8 @@ public class CargaInicio extends AppCompatActivity {
 
         }
     }
-    public void createDatosInicio() {
 
+    public void createDatosInicio() {
         //---------------------------------CATEGORIAS
         String[] categorias = {"Diccionario", "Alfabeto", "Frases", "Expresiones"};
         DbCatego dbcatego = new DbCatego(CargaInicio.this);

@@ -3,6 +3,7 @@ package com.example.SinSenas;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -51,63 +52,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        //createDB();
-
 
     }
-
-    public void createDB() {
-        DbHelper dbHelper = new DbHelper(MainActivity.this);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        db.delete("categorias",null,null);
-        db.delete("descripcion",null,null);
-        if (db != null) {
-          createDatos();
-        } else {
-            Toast.makeText(MainActivity.this, "ERROR AL CREAR BD", Toast.LENGTH_LONG).show();
-
-        }
-    }
-
-    public void createDatos() {
-
-        //---------------------------------CATEGORIAS
-        String[] categorias = {"Diccionario", "Alfabeto", "Frases", "Expresiones"};
-        DbCatego dbcatego = new DbCatego(MainActivity.this);
-
-        for (int i = 0; i < categorias.length; i++) {
-            dbcatego.insertCatego(categorias[i]);
-        }
-
-
-        //---------------------------------DESCRIPCION
-       DbDescripcion dbDescripcion = new DbDescripcion(MainActivity.this);
-
-        ////DICCIONARIO
-        dbDescripcion.insertDescription("Buenos días", "Saludo basico empleado por gran parte de la poblacióna", 0);
-        dbDescripcion.insertDescription("Buenas tardes", "Saludo basico empleado por gran parte de la poblacióna", 0);
-        dbDescripcion.insertDescription("Buenas noches", "Saludo basico empleado por gran parte de la poblacióna", 0);
-        dbDescripcion.insertDescription("Hasta luego", "Saludo basico empleado por gran parte de la poblacióna", 0);
-        ////ALFABETO
-        dbDescripcion.insertDescription("TITULO 2", "Saludo basico empleado por gran parte de la poblacióna", 1);
-        dbDescripcion.insertDescription("TITULO 2", "Saludo basico empleado por gran parte de la poblacióna", 1);
-        dbDescripcion.insertDescription("TITULO 2", "Saludo basico empleado por gran parte de la poblacióna", 1);
-        dbDescripcion.insertDescription("TITULO 2", "Saludo basico empleado por gran parte de la poblacióna", 1);
-
-        ////FRASES
-        dbDescripcion.insertDescription("TITULO 3", "Saludo basico empleado por gran parte de la poblacióna", 2);
-        dbDescripcion.insertDescription("TITULO 3", "Saludo basico empleado por gran parte de la poblacióna", 2);
-        dbDescripcion.insertDescription("TITULO 3", "Saludo basico empleado por gran parte de la poblacióna",2);
-        dbDescripcion.insertDescription("TITULO 3", "Saludo basico empleado por gran parte de la poblacióna", 2);
-
-
-        ////EXPRESIONES
-        dbDescripcion.insertDescription("TITULO 4", "Saludo basico empleado por gran parte de la poblacióna", 3);
-        dbDescripcion.insertDescription("TITULO 4", "Saludo basico empleado por gran parte de la poblacióna", 3);
-        dbDescripcion.insertDescription("TITULO 4", "Saludo basico empleado por gran parte de la poblacióna", 3);
-        dbDescripcion.insertDescription("TITULO 4", "Saludo basico empleado por gran parte de la poblacióna", 3);
+    @Override
+    public void onBackPressed() {
 
     }
-
-
 }

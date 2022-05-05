@@ -2,15 +2,15 @@ package com.example.SinSenas.Class;
 
 import java.util.ArrayList;
 
-public class Mano {
+public class Sena {
     int id;
-    String mano;
-    ArrayList<Dedo> dedos;
+    String sena;
+    ArrayList<Punto> puntos;
 
-    public Mano(int id, String mano, ArrayList<Dedo> dedos) {
+    public Sena(int id, String sena, ArrayList<Punto> puntos) {
         this.id = id;
-        this.mano = mano;
-        this.dedos = dedos;
+        this.sena = sena;
+        this.puntos = puntos;
     }
 
     public int getId() {
@@ -21,19 +21,19 @@ public class Mano {
         this.id = id;
     }
 
-    public String getMano() {
-        return mano;
+    public String getSena() {
+        return sena;
     }
 
-    public void setMano(String mano) {
-        this.mano = mano;
+    public void setSena(String sena) {
+        this.sena = sena;
     }
 
-    public ArrayList<Dedo> getDedos() {
-        return dedos;
+    public ArrayList<Punto> getPuntos() {
+        return puntos;
     }
 
-    public void setDedos(ArrayList<Dedo> dedos) {
-        this.dedos = dedos;
+    public void setPuntos(ArrayList<Punto> puntos) {
+        this.puntos = puntos;
     }
 }

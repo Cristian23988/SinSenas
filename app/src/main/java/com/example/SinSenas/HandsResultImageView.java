@@ -21,13 +21,19 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatImageView;
+
+import com.example.SinSenas.Class.Punto;
+import com.example.SinSenas.Class.Sena;
+import com.example.SinSenas.db.DbSena;
+import com.google.mediapipe.formats.proto.ClassificationProto;
 import com.google.mediapipe.formats.proto.LandmarkProto;
 import com.google.mediapipe.formats.proto.LandmarkProto.NormalizedLandmark;
 import com.google.mediapipe.solutions.hands.Hands;
 import com.google.mediapipe.solutions.hands.HandsResult;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /** An ImageView implementation for displaying {@link HandsResult}. */
@@ -76,6 +82,8 @@ public class HandsResultImageView extends AppCompatImageView {
           width,
           height);
     }
+    Boolean left =  result.multiHandedness().get(0).getLabel().equals("Left");
+    ClassificationProto.Classification lef =  result.multiHandedness().get(0);
   }
 
   /** Updates the image view with the latest {@link HandsResult}. */
@@ -101,12 +109,14 @@ public class HandsResultImageView extends AppCompatImageView {
       connectionPaint.setStrokeWidth(CONNECTION_THICKNESS);
       NormalizedLandmark start = handLandmarkList.get(c.start());
       NormalizedLandmark end = handLandmarkList.get(c.end());
+      /*Log.i("-------start", String.valueOf(start));
+      Log.i("--------------","----");
       //Toast.makeText(HandsResultImageView.this, "Has pulsado: " + start.getX(), Toast.LENGTH_LONG).show();
       Log.i("inicio GET X", String.valueOf(start.getX()* width));
       Log.i("inicio GET Y", String.valueOf(start.getX()* height));
       Log.i("fin GET X", String.valueOf(end.getX()* width));
-      Log.i("fin GET Y", String.valueOf(end.getX()* height));
-      Log.i("Conection Paint", String.valueOf(connectionPaint));
+      Log.i("fin GET Y", String.valueOf(end.getX()* height));*/
+
       canvas.drawLine(
           start.getX() * width,
           start.getY() * height,
@@ -136,14 +146,32 @@ public class HandsResultImageView extends AppCompatImageView {
 
     Paint PointsNumber = new Paint();
     PointsNumber.setColor(Color.BLACK);
-    PointsNumber.setStrokeWidth(HOLLOW_CIRCLE_WIDTH);
+    PointsNumber.setStrokeWidth(2f);
     PointsNumber.setStyle(Paint.Style.STROKE);
+    ArrayList<Punto> puntos = new ArrayList<Punto>();
+    ArrayList<Sena> senas = new ArrayList<Sena>();
     int idPoint=0;
     for (LandmarkProto.NormalizedLandmark landmark : handLandmarkList) {
       canvas.drawText(String.valueOf(idPoint), landmark.getX() * width, landmark.getY() * height, PointsNumber);
     idPoint=idPoint+1;
+    puntos.add(new Punto(idPoint,landmark.getX()* width,landmark.getY()* height));
+
+    }
+
+    //----->No borrar this important!!!!!!!
+
+    String manoLeft = isLeftHand ? "Izq" : "Der";
+    senas.add(new Sena(0,manoLeft,puntos));
+
+    for(Sena sen : senas){
+     // Log.i("----Seña:", String.valueOf(sen.getSena()));
+      for(Punto punt : sen.getPuntos()){
+      //  Log.i("", String.valueOf(punt.getVectorX()));
+      }
+
     }
 
 
   }
+
 }

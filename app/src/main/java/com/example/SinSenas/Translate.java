@@ -13,7 +13,10 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.example.SinSenas.Class.Punto;
+import com.example.SinSenas.Class.Sena;
 import com.example.SinSenas.R;
+import com.example.SinSenas.db.DbSena;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -29,6 +32,7 @@ import com.example.SinSenas.databinding.TranslateActivityMainBinding;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 // ContentResolver dependency
 import com.google.mediapipe.formats.proto.LandmarkProto.Landmark;
@@ -110,6 +114,7 @@ public class Translate extends AppCompatActivity {
         setupStaticImageDemoUiComponents();
         setupVideoDemoUiComponents();
         setupLiveDemoUiComponents();
+
     }
 
     @Override
@@ -219,8 +224,10 @@ public class Translate extends AppCompatActivity {
                     Intent pickImageIntent = new Intent(Intent.ACTION_PICK);
                     pickImageIntent.setDataAndType(MediaStore.Images.Media.INTERNAL_CONTENT_URI, "image/*");
                     imageGetter.launch(pickImageIntent);
+
                 });
         imageView = new HandsResultImageView(this);
+
     }
 
     /** Sets up core workflow for static image mode. */
@@ -411,5 +418,16 @@ public class Translate extends AppCompatActivity {
                         "MediaPipe Hand wrist world coordinates (in meters with the origin at the hand's"
                                 + " approximate geometric center): x=%f m, y=%f m, z=%f m",
                         wristWorldLandmark.getX(), wristWorldLandmark.getY(), wristWorldLandmark.getZ()));
+    }
+
+    public void createDatosSena() {
+
+        ArrayList<Sena> senas = new ArrayList<Sena>();
+        for(Sena sen : senas){
+            Log.i("----Seña:", String.valueOf(sen.getSena()));
+            for(Punto punt : sen.getPuntos()){
+                 Log.i("", String.valueOf(punt.getVectorX()));
+            }
+        }
     }
 }
