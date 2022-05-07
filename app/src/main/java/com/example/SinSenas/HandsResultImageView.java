@@ -21,11 +21,13 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatImageView;
 
 import com.example.SinSenas.Class.Punto;
 import com.example.SinSenas.Class.Sena;
+import com.example.SinSenas.db.DbPunto;
 import com.example.SinSenas.db.DbSena;
 import com.google.mediapipe.formats.proto.ClassificationProto;
 import com.google.mediapipe.formats.proto.LandmarkProto;
@@ -50,10 +52,11 @@ public class HandsResultImageView extends AppCompatImageView {
   private static final int RIGHT_HAND_LANDMARK_COLOR = Color.parseColor("#30FF30");
   private static final int LANDMARK_RADIUS = 10; // Pixels
   private Bitmap latest;
-
+  Context contextoo;
   public HandsResultImageView(Context context) {
     super(context);
     setScaleType(ScaleType.FIT_CENTER);
+    contextoo=context;
   }
 
   /**
@@ -92,8 +95,19 @@ public class HandsResultImageView extends AppCompatImageView {
     if (latest != null) {
       setImageBitmap(latest);
     }
+    MostrarDatosSenas();
   }
+  public void MostrarDatosSenas() {
 
+    int idItem = 1;
+    ArrayList<Punto> ListaPunto = new ArrayList<>();
+    DbPunto dbpunto=new DbPunto(contextoo);
+    ListaPunto = dbpunto.mostrarPunto(idItem);
+    for(Punto punt:ListaPunto){
+      Log.i("Mostrar Datos DB VecX",String.valueOf(punt.getVectorX()));
+    }
+
+  }
   private void drawLandmarksOnCanvas(
       List<NormalizedLandmark> handLandmarkList,
       boolean isLeftHand,
@@ -109,13 +123,6 @@ public class HandsResultImageView extends AppCompatImageView {
       connectionPaint.setStrokeWidth(CONNECTION_THICKNESS);
       NormalizedLandmark start = handLandmarkList.get(c.start());
       NormalizedLandmark end = handLandmarkList.get(c.end());
-      /*Log.i("-------start", String.valueOf(start));
-      Log.i("--------------","----");
-      //Toast.makeText(HandsResultImageView.this, "Has pulsado: " + start.getX(), Toast.LENGTH_LONG).show();
-      Log.i("inicio GET X", String.valueOf(start.getX()* width));
-      Log.i("inicio GET Y", String.valueOf(start.getX()* height));
-      Log.i("fin GET X", String.valueOf(end.getX()* width));
-      Log.i("fin GET Y", String.valueOf(end.getX()* height));*/
 
       canvas.drawLine(
           start.getX() * width,
@@ -131,7 +138,6 @@ public class HandsResultImageView extends AppCompatImageView {
       canvas.drawCircle(
           landmark.getX() * width, landmark.getY() * height, LANDMARK_RADIUS, landmarkPaint);
     }
-    // Draws hollow circles around landmarks.
     landmarkPaint.setColor(
         isLeftHand ? LEFT_HAND_HOLLOW_CIRCLE_COLOR : RIGHT_HAND_HOLLOW_CIRCLE_COLOR);
     landmarkPaint.setStrokeWidth(HOLLOW_CIRCLE_WIDTH);
@@ -161,12 +167,21 @@ public class HandsResultImageView extends AppCompatImageView {
     //----->No borrar this important!!!!!!!
 
     String manoLeft = isLeftHand ? "Izq" : "Der";
-    senas.add(new Sena(0,manoLeft,puntos));
+    int id =0;
+    if (manoLeft.equals("Izq")){id=2;}else{id=1;}
+    senas.add(new Sena(id,manoLeft,puntos));
 
+    //DbSena dbsena=new DbSena(HandsResultImageView.this);
+    //ArrayList<Sena> senas = new ArrayList<Sena>();
+    DbSena dbsena=new DbSena(contextoo);
+    DbPunto dbpunto=new DbPunto(contextoo);
     for(Sena sen : senas){
      // Log.i("----Seña:", String.valueOf(sen.getSena()));
+    //  Log.i("----SeñaID:", String.valueOf(sen.getId()));
+      dbsena.insertSena(String.valueOf(sen.getSena()));
       for(Punto punt : sen.getPuntos()){
-      //  Log.i("", String.valueOf(punt.getVectorX()));
+        //Log.i("", String.valueOf(punt.getVectorX()));
+        dbpunto.insertPunto(punt.getVectorX(),punt.getVectorY(),sen.getId());
       }
 
     }

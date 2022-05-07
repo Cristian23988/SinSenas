@@ -9,6 +9,8 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.example.SinSenas.Class.ModeloTemario;
+import com.example.SinSenas.Class.Punto;
+import com.example.SinSenas.Class.Sena;
 
 import java.util.ArrayList;
 
@@ -36,34 +38,35 @@ public class DbPunto extends DbHelper {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             ContentValues values = new ContentValues();
             values.put("x", x);
-            values.put("y", y);
+            values.put("Y", y);
             values.put("idSena", idSena);
-            id = db.insert(TABLE_DESCRIPCION, null, values);
+            id = db.insert(TABLE_PUNTO, null, values);
         } catch (Exception ex) {
             ex.toString();
         }
         return id;
     }
 
-    public ArrayList<ModeloTemario> mostrarSena() {
+    public ArrayList<Punto> mostrarPunto(int idSena) {
         DbHelper dbHelper=new DbHelper(context);
         SQLiteDatabase db=dbHelper.getWritableDatabase();
-        ArrayList<ModeloTemario>ListaSena=new ArrayList<>();
-        ModeloTemario senas=null;
-        Cursor cursorSena=null;
-        cursorSena=db.rawQuery("SELECT * FROM "+TABLE_SENA,null );
-        if(cursorSena.moveToFirst()){
+        ArrayList<Punto>ListaPunto=new ArrayList<>();
+        Punto punto=null;
+        Cursor cursorPunto=null;
+        cursorPunto=db.rawQuery("SELECT * FROM "+TABLE_PUNTO+" WHERE idSena="+idSena,null );
+        if(cursorPunto.moveToFirst()){
             do{
-                senas=new ModeloTemario();
-                senas.setId(cursorSena.getInt(0));
-                senas.setImagen(cursorSena.getInt(1));
-                senas.setNombre(cursorSena.getString(2));
-                ListaSena.add(senas);
-            }while(cursorSena.moveToNext());
+                punto=new Punto();
+                punto.setId(cursorPunto.getInt(0));
+                punto.setVectorX(cursorPunto.getFloat(1));
+                punto.setVectorY(cursorPunto.getFloat(2));
+                punto.setId(cursorPunto.getInt(3));
+                ListaPunto.add(punto);
+            }while(cursorPunto.moveToNext());
         }
-        cursorSena.close();
-        Log.i("", String.valueOf(ListaSena));
-        return ListaSena;
+        cursorPunto.close();
+        Log.i("", String.valueOf(ListaPunto));
+        return ListaPunto;
     }
 
 }

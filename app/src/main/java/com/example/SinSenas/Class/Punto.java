@@ -4,7 +4,8 @@ public class Punto {
     int id;
     float VectorX;
     float VectorY;
-
+    int idSena;
+    public Punto(){}
     public Punto(int id, float vectorX, float vectorY) {
         this.id = id;
         VectorX = vectorX;
@@ -33,5 +34,13 @@ public class Punto {
 
     public void setVectorY(float vectorY) {
         VectorY = vectorY;
+    }
+
+    public int getIdSena() {
+        return idSena;
+    }
+
+    public void setIdSena(int idSena) {
+        this.idSena = idSena;
     }
 }

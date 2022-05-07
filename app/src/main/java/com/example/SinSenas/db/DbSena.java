@@ -22,6 +22,7 @@ public class DbSena extends DbHelper {
         this.context = context;
     }
 
+
     public boolean Vacia(){
         boolean rta;
         DbHelper dbHelper=new DbHelper(context);

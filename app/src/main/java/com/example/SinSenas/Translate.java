@@ -13,9 +13,12 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.example.SinSenas.Class.DescripcionTema;
 import com.example.SinSenas.Class.Punto;
 import com.example.SinSenas.Class.Sena;
 import com.example.SinSenas.R;
+import com.example.SinSenas.db.DbDescripcion;
+import com.example.SinSenas.db.DbPunto;
 import com.example.SinSenas.db.DbSena;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -140,6 +143,7 @@ public class Translate extends AppCompatActivity {
         } else if (inputSource == InputSource.VIDEO) {
             videoInput.pause();
         }
+
     }
 
     private Bitmap downscaleBitmap(Bitmap originalBitmap) {
@@ -178,6 +182,7 @@ public class Translate extends AppCompatActivity {
         }
         return Bitmap.createBitmap(
                 inputBitmap, 0, 0, inputBitmap.getWidth(), inputBitmap.getHeight(), matrix, true);
+
     }
 
     /** Sets up the UI components for the static image demo. */
@@ -258,6 +263,7 @@ public class Translate extends AppCompatActivity {
         imageView.setImageDrawable(null);
         frameLayout.addView(imageView);
         imageView.setVisibility(View.VISIBLE);
+
     }
 
     /** Sets up the UI components for the video demo. */
@@ -292,6 +298,7 @@ public class Translate extends AppCompatActivity {
                     pickVideoIntent.setDataAndType(MediaStore.Video.Media.INTERNAL_CONTENT_URI, "video/*");
                     videoGetter.launch(pickVideoIntent);
                 });
+
     }
 
     /** Sets up the UI components for the live demo with camera input. */
@@ -305,6 +312,7 @@ public class Translate extends AppCompatActivity {
                     stopCurrentPipeline();
                     setupStreamingModePipeline(InputSource.CAMERA);
                 });
+
     }
 
     /** Sets up core workflow for streaming mode. */
@@ -354,6 +362,7 @@ public class Translate extends AppCompatActivity {
         frameLayout.addView(glSurfaceView);
         glSurfaceView.setVisibility(View.VISIBLE);
         frameLayout.requestLayout();
+
     }
 
     private void startCamera() {
@@ -363,6 +372,7 @@ public class Translate extends AppCompatActivity {
                 CameraInput.CameraFacing.FRONT,
                 glSurfaceView.getWidth(),
                 glSurfaceView.getHeight());
+
     }
 
     private void stopCurrentPipeline() {
@@ -380,6 +390,7 @@ public class Translate extends AppCompatActivity {
         if (hands != null) {
             hands.close();
         }
+
     }
 
 
@@ -418,16 +429,8 @@ public class Translate extends AppCompatActivity {
                         "MediaPipe Hand wrist world coordinates (in meters with the origin at the hand's"
                                 + " approximate geometric center): x=%f m, y=%f m, z=%f m",
                         wristWorldLandmark.getX(), wristWorldLandmark.getY(), wristWorldLandmark.getZ()));
+
     }
 
-    public void createDatosSena() {
 
-        ArrayList<Sena> senas = new ArrayList<Sena>();
-        for(Sena sen : senas){
-            Log.i("----Seña:", String.valueOf(sen.getSena()));
-            for(Punto punt : sen.getPuntos()){
-                 Log.i("", String.valueOf(punt.getVectorX()));
-            }
-        }
-    }
 }
