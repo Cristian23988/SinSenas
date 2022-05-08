@@ -20,7 +20,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatImageView;
@@ -53,10 +55,18 @@ public class HandsResultImageView extends AppCompatImageView {
   private static final int LANDMARK_RADIUS = 10; // Pixels
   private Bitmap latest;
   Context contextoo;
+  private String mensaje;
   public HandsResultImageView(Context context) {
     super(context);
     setScaleType(ScaleType.FIT_CENTER);
     contextoo=context;
+  }
+
+  private void setMensaje(String m) {
+    this.mensaje = m;
+  }
+  public String getMensaje(){
+    return this.mensaje != null ? this.mensaje : "";
   }
 
   /**
@@ -77,6 +87,7 @@ public class HandsResultImageView extends AppCompatImageView {
 
     canvas.drawBitmap(bmInput, new Matrix(), null);
     int numHands = result.multiHandLandmarks().size();
+
     for (int i = 0; i < numHands; ++i) {
       drawLandmarksOnCanvas(
           result.multiHandLandmarks().get(i).getLandmarkList(),
@@ -85,7 +96,6 @@ public class HandsResultImageView extends AppCompatImageView {
           width,
           height);
     }
-    Boolean left =  result.multiHandedness().get(0).getLabel().equals("Left");
     ClassificationProto.Classification lef =  result.multiHandedness().get(0);
   }
 
@@ -107,6 +117,7 @@ public class HandsResultImageView extends AppCompatImageView {
       Log.i("Mostrar Datos DB VecX",String.valueOf(punt.getVectorX()));
     }
 
+    //Toast.makeText(contextoo,String.valueOf(dbpunto.mostrarPunto(1)), Toast.LENGTH_SHORT).show();
   }
   private void drawLandmarksOnCanvas(
       List<NormalizedLandmark> handLandmarkList,
@@ -161,7 +172,6 @@ public class HandsResultImageView extends AppCompatImageView {
       canvas.drawText(String.valueOf(idPoint), landmark.getX() * width, landmark.getY() * height, PointsNumber);
     idPoint=idPoint+1;
     puntos.add(new Punto(idPoint,landmark.getX()* width,landmark.getY()* height));
-
     }
 
     //----->No borrar this important!!!!!!!
@@ -175,18 +185,25 @@ public class HandsResultImageView extends AppCompatImageView {
     //ArrayList<Sena> senas = new ArrayList<Sena>();
     DbSena dbsena=new DbSena(contextoo);
     DbPunto dbpunto=new DbPunto(contextoo);
+
+    //---Guardar mensaje---------------
+    String mensaje = "";
+
     for(Sena sen : senas){
      // Log.i("----Seña:", String.valueOf(sen.getSena()));
     //  Log.i("----SeñaID:", String.valueOf(sen.getId()));
       dbsena.insertSena(String.valueOf(sen.getSena()));
+      mensaje += "Seña: ";
+      mensaje += String.valueOf(sen.getSena());
       for(Punto punt : sen.getPuntos()){
-        //Log.i("", String.valueOf(punt.getVectorX()));
         dbpunto.insertPunto(punt.getVectorX(),punt.getVectorY(),sen.getId());
+        mensaje += "\nvector[ ";
+        mensaje += String.valueOf(punt.getVectorX());
+        mensaje += " : ";
+        mensaje += String.valueOf(punt.getVectorY());
+        mensaje += "]\n";
       }
-
     }
-
-
+    this.setMensaje(mensaje);
   }
-
 }
