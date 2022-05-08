@@ -34,7 +34,7 @@ public class CargaInicio extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carga_inicio);
         fireRta=(TextView) findViewById(R.id.rtaFirebase);
-        Continuar(5000);
+        Continuar(2500);
     }
 
     @Override

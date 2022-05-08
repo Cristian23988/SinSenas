@@ -6,11 +6,14 @@ import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.SinSenas.Class.DescripcionTema;
@@ -232,7 +235,6 @@ public class Translate extends AppCompatActivity {
 
                 });
         imageView = new HandsResultImageView(this);
-
     }
 
     /** Sets up core workflow for static image mode. */
@@ -248,12 +250,34 @@ public class Translate extends AppCompatActivity {
                                 .setRunOnGpu(RUN_ON_GPU)
                                 .build());
 
-        // Connects MediaPipe Hands solution to the user-defined HandsResultImageView.
+        // Connects MediaPipe Hands solution to the user-defined HandsResultImageView
+        Handler handler = new Handler();
         hands.setResultListener(
                 handsResult -> {
                     logWristLandmark(handsResult, /*showPixelValues=*/ true);
                     imageView.setHandsResult(handsResult);
                     runOnUiThread(() -> imageView.update());
+//Mensaje CHAT---------------------------------------------
+                    View linearLayout =  findViewById(R.id.linearChat);
+                    //int contChats = linearLayout.;
+
+                    handler.postDelayed(new Runnable() {//Actualiza despues de cargar imagen
+                        public void run() {
+                            String u = imageView.getMensaje();
+                            if(u != null){
+                                TextView chat = new TextView(Translate.this);
+                                chat.setText(u);
+                                chat.setId(1);
+                                chat.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                                ((LinearLayout) linearLayout).addView(chat);
+                            }
+                            TextView valueTV = new TextView(Translate.this);
+                            valueTV.setText("no anda muerto andaba de parranda");
+                            valueTV.setId(2);
+                            valueTV.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                            ((LinearLayout) linearLayout).addView(valueTV);
+                        }
+                    }, 1000);
                 });
         hands.setErrorListener((message, e) -> Log.e(TAG, "MediaPipe Hands error:" + message));
 
@@ -369,7 +393,7 @@ public class Translate extends AppCompatActivity {
         cameraInput.start(
                 this,
                 hands.getGlContext(),
-                CameraInput.CameraFacing.FRONT,
+                CameraInput.CameraFacing.BACK,
                 glSurfaceView.getWidth(),
                 glSurfaceView.getHeight());
 
