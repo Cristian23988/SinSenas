@@ -1,5 +1,6 @@
 package com.example.SinSenas;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
@@ -116,11 +117,10 @@ public class Translate extends AppCompatActivity {
             }
         });
 
-        //setContentView(R.layout.activity_main);
-        setupStaticImageDemoUiComponents();
-        setupVideoDemoUiComponents();
-        setupLiveDemoUiComponents();
-
+        //Funciones de traduccion
+        setupStaticImageDemoUiComponents();//Funcion imagen
+        setupVideoDemoUiComponents();//Funcion video
+        setupLiveDemoUiComponents();//Funcion tiempo real
     }
 
     @Override
@@ -221,11 +221,13 @@ public class Translate extends AppCompatActivity {
                                 }
                             }
                         });
+
         Button loadImageButton = findViewById(R.id.button_load_picture);
         loadImageButton.setOnClickListener(
                 v -> {
                     if (inputSource != InputSource.IMAGE) {
                         stopCurrentPipeline();
+                        //Ejecuta la funcion de reconomiento
                         setupStaticImageModePipeline();
                     }
                     // Reads images from gallery.
@@ -254,16 +256,20 @@ public class Translate extends AppCompatActivity {
         Handler handler = new Handler();
         hands.setResultListener(
                 handsResult -> {
-                    logWristLandmark(handsResult, /*showPixelValues=*/ true);
+                    //Envia los datos de la imagen a la clase HandsResultImageView
                     imageView.setHandsResult(handsResult);
+                    //Actualiza la imagen en la interfaz
                     runOnUiThread(() -> imageView.update());
-//Mensaje CHAT---------------------------------------------
+        //--Mensaje CHAT---------------------------------------------
+                    //Elementos del chat
                     View linearLayout =  findViewById(R.id.linearChat);
-                    //int contChats = linearLayout.;
-
-                    handler.postDelayed(new Runnable() {//Actualiza despues de cargar imagen
+                    //Actualiza el chat despues de cargar imagen
+                    handler.postDelayed(new Runnable() {
+                        @SuppressLint("ResourceType")
                         public void run() {
+                            //Captura el mensaje que se ha guardado en HandsResultImageView
                             String u = imageView.getMensaje();
+                            //Crear TextView para ser agregado en el chat
                             if(u != null){
                                 TextView chat = new TextView(Translate.this);
                                 chat.setText(u);
@@ -271,16 +277,11 @@ public class Translate extends AppCompatActivity {
                                 chat.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                                 ((LinearLayout) linearLayout).addView(chat);
                             }
-                            TextView valueTV = new TextView(Translate.this);
-                            valueTV.setText("no anda muerto andaba de parranda");
-                            valueTV.setId(2);
-                            valueTV.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                            ((LinearLayout) linearLayout).addView(valueTV);
                         }
-                    }, 1000);
+                    }, 500);
                 });
-        hands.setErrorListener((message, e) -> Log.e(TAG, "MediaPipe Hands error:" + message));
 
+        hands.setErrorListener((message, e) -> Log.e(TAG, "MediaPipe Hands error:" + message));
         // Updates the preview layout.
         FrameLayout frameLayout = findViewById(R.id.preview_display_layout);
         frameLayout.removeAllViewsInLayout();
@@ -361,17 +362,37 @@ public class Translate extends AppCompatActivity {
             videoInput.setNewFrameListener(textureFrame -> hands.send(textureFrame));
         }
 
+        HandsResultGlRenderer hRGIRenderer = new HandsResultGlRenderer();
         // Initializes a new Gl surface view with a user-defined HandsResultGlRenderer.
-        glSurfaceView =
-                new SolutionGlSurfaceView<>(this, hands.getGlContext(), hands.getGlMajorVersion());
-        glSurfaceView.setSolutionResultRenderer(new HandsResultGlRenderer());
+        glSurfaceView = new SolutionGlSurfaceView<>(this, hands.getGlContext(), hands.getGlMajorVersion());
+        glSurfaceView.setSolutionResultRenderer(hRGIRenderer);
         glSurfaceView.setRenderInputImage(true);
+
+        Handler handler = new Handler();
+
         hands.setResultListener(
-                handsResult -> {
-                    logWristLandmark(handsResult, /*showPixelValues=*/ false);
-                    glSurfaceView.setRenderData(handsResult);
-                    glSurfaceView.requestRender();
-                });
+            handsResult -> {
+                glSurfaceView.setRenderData(handsResult);
+                glSurfaceView.requestRender();
+
+                //--Mensaje CHAT---------------------------------------------
+                View linearLayout =  findViewById(R.id.linearChat);
+                //Actualiza despues de cargar imagen
+                handler.postDelayed(new Runnable() {
+                    @SuppressLint("ResourceType")
+                    public void run() {
+                        String u = hRGIRenderer.getMensaje();
+                        if(u != null){
+                            TextView chat = new TextView(Translate.this);
+                            chat.setText(u);
+                            chat.setId(1);
+                            chat.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                            ((LinearLayout) linearLayout).addView(chat);
+                        }
+                    }
+                }, 1000);
+            }
+        );
 
         // The runnable to start camera after the gl surface view is attached.
         // For video input source, videoInput.start() will be called when the video uri is available.
@@ -386,7 +407,6 @@ public class Translate extends AppCompatActivity {
         frameLayout.addView(glSurfaceView);
         glSurfaceView.setVisibility(View.VISIBLE);
         frameLayout.requestLayout();
-
     }
 
     private void startCamera() {
@@ -416,45 +436,4 @@ public class Translate extends AppCompatActivity {
         }
 
     }
-
-
-    private void logWristLandmark(HandsResult result, boolean showPixelValues) {
-        if (result.multiHandLandmarks().isEmpty()) {
-            return;
-        }
-        NormalizedLandmark wristLandmark =
-                result.multiHandLandmarks().get(0).getLandmarkList().get(HandLandmark.WRIST);
-
-        // For Bitmaps, show the pixel values. For texture inputs, show the normalized coordinates.
-        if (showPixelValues) {
-            int width = result.inputBitmap().getWidth();
-            int height = result.inputBitmap().getHeight();
-
-            Log.i(
-                    TAG,
-                    String.format(
-                            "MediaPipe Hand wrist coordinates (pixel values): x=%f, y=%f",
-                            wristLandmark.getX() * width, wristLandmark.getY() * height));
-        } else {
-            Log.i(
-                    TAG,
-                    String.format(
-                            "MediaPipe Hand wrist normalized coordinates (value range: [0, 1]): x=%f, y=%f",
-                            wristLandmark.getX(), wristLandmark.getY()));
-        }
-        if (result.multiHandWorldLandmarks().isEmpty()) {
-            return;
-        }
-        Landmark wristWorldLandmark =
-                result.multiHandWorldLandmarks().get(0).getLandmarkList().get(HandLandmark.WRIST);
-        Log.i(
-                TAG,
-                String.format(
-                        "MediaPipe Hand wrist world coordinates (in meters with the origin at the hand's"
-                                + " approximate geometric center): x=%f m, y=%f m, z=%f m",
-                        wristWorldLandmark.getX(), wristWorldLandmark.getY(), wristWorldLandmark.getZ()));
-
-    }
-
-
 }

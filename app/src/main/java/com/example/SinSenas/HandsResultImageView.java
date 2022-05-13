@@ -20,10 +20,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatImageView;
 
@@ -62,12 +59,8 @@ public class HandsResultImageView extends AppCompatImageView {
     contextoo=context;
   }
 
-  private void setMensaje(String m) {
-    this.mensaje = m;
-  }
-  public String getMensaje(){
-    return this.mensaje != null ? this.mensaje : "";
-  }
+  private void setMensaje(String m) {this.mensaje = m;}
+  public String getMensaje() {return this.mensaje != null ? this.mensaje : "";}
 
   /**
    * Sets a {@link HandsResult} to render.
@@ -79,15 +72,20 @@ public class HandsResultImageView extends AppCompatImageView {
     if (result == null) {
       return;
     }
+
+    //crea una capa encima de la imagen para mostrar los puntos, es decir no edita la imagen
     Bitmap bmInput = result.inputBitmap();
     int width = bmInput.getWidth();
     int height = bmInput.getHeight();
     latest = Bitmap.createBitmap(width, height, bmInput.getConfig());
     Canvas canvas = new Canvas(latest);
-
     canvas.drawBitmap(bmInput, new Matrix(), null);
-    int numHands = result.multiHandLandmarks().size();
 
+    //Reconocer seña
+    this.reconocerSena(result);
+
+    //Solo dibuja la mano
+    int numHands = result.multiHandLandmarks().size();
     for (int i = 0; i < numHands; ++i) {
       drawLandmarksOnCanvas(
           result.multiHandLandmarks().get(i).getLandmarkList(),
@@ -96,18 +94,103 @@ public class HandsResultImageView extends AppCompatImageView {
           width,
           height);
     }
-    ClassificationProto.Classification lef =  result.multiHandedness().get(0);
   }
 
-  /** Updates the image view with the latest {@link HandsResult}. */
-  public void update() {
-    postInvalidate();
-    if (latest != null) {
-      setImageBitmap(latest);
-    }
-    MostrarDatosSenas();
+  /** Calcular distancia entre dos puntos*/
+  private double calcularDistancia(double x1, double y1, double x2, double y2) {
+    double diferenciaY = Math.abs(y2 - y1);
+    double diferenciaX = Math.abs(x2 - x1);
+
+    //Retorna la distancia eucladiana evitando desbordamiento si es muy grande el resultado.
+    return Math.hypot(diferenciaY, diferenciaX);
   }
-  public void MostrarDatosSenas() {
+  
+  /** Reconocer Seña*/
+  private void reconocerSena(HandsResult result) {
+    //Referencia de base y dedos
+    int refBase = 0;
+    /*
+    int refPulgar = 4;
+    int refBaseIndice = 5;
+    int refIndice = 8;
+    int refBaseMedio = 9;
+    int refMedio = 12;
+    int refBaseAnular = 13;
+    int refAnular = 16;
+    int refBaseMenique = 17;
+    int refMenique = 20;
+    ClassificationProto.Classification lef =  result.multiHandedness().get(0);*/
+
+    //Mostrar mensaje
+    //Numero de manos
+    int numHands = result.multiHandLandmarks().size();
+    String mensaje = "";
+
+    //Seña de dos manos
+    if(numHands > 1){
+      //Cargar datos de la mano en mensaje
+      for (int i = 0; i < numHands; ++i) {
+        mensaje += i == 0 ? "Mano izquierda:\n" : "\nMano derecha:\n";
+        //Lista de coordenada de los puntos
+        List<NormalizedLandmark> handLandmarkList = result.multiHandLandmarks().get(i).getLandmarkList();
+
+        //Base de la mano
+        double x_base1 = handLandmarkList.get(refBase).getX();
+        double y_base1 = handLandmarkList.get(refBase).getY();
+
+        int countBase2 = 2;
+        int dedo = 4;
+        for(int ii = 0; ii <= 4; ii++){
+          double x_base2 = handLandmarkList.get(countBase2).getX();
+          double y_base2 = handLandmarkList.get(countBase2).getY();
+
+          double x_dedo = handLandmarkList.get(dedo).getX();
+          double y_dedo = handLandmarkList.get(dedo).getY();
+
+          double distanciaBase = this.calcularDistancia(x_base1, y_base1, x_base2, y_base2);
+          double distanciaDedo = this.calcularDistancia(x_base1, y_base1, x_dedo, y_dedo);
+
+          if(distanciaDedo < distanciaBase ){
+            mensaje += "Dedo abajo: "+dedo+"\n";
+          }
+          countBase2 = countBase2 == 2 ? countBase2 + 3 : countBase2 + 4;
+          dedo += 4;
+        }
+      }
+    }else{
+      //Lista de coordenada de los puntos
+      List<NormalizedLandmark> handLandmarkList = result.multiHandLandmarks().get(0).getLandmarkList();
+
+      //Base de la mano
+      double x_base1 = handLandmarkList.get(refBase).getX();
+      double y_base1 = handLandmarkList.get(refBase).getY();
+
+      int countBase2 = 2;
+      int dedo = 4;
+      for(int i = 0; i <= 4; i++){
+        double x_base2 = handLandmarkList.get(countBase2).getX();
+        double y_base2 = handLandmarkList.get(countBase2).getY();
+
+        double x_dedo = handLandmarkList.get(dedo).getX();
+        double y_dedo = handLandmarkList.get(dedo).getY();
+
+        double distanciaBase = this.calcularDistancia(x_base1, y_base1, x_base2, y_base2);
+        double distanciaDedo = this.calcularDistancia(x_base1, y_base1, x_dedo, y_dedo);
+
+        if(distanciaDedo < distanciaBase ){
+          mensaje += "Dedo abajo: "+dedo+"\n";
+        }
+        countBase2 = countBase2 == 2 ? countBase2 + 3 : countBase2 + 4;
+        dedo += 4;
+      }
+    }
+
+    //Guardar valores de mensaje
+    this.setMensaje(mensaje);
+  }
+
+  /** Base de datos Sena*/
+  public void mostrarDatosSenas() {
 
     int idItem = 1;
     ArrayList<Punto> ListaPunto = new ArrayList<>();
@@ -119,6 +202,17 @@ public class HandsResultImageView extends AppCompatImageView {
 
     //Toast.makeText(contextoo,String.valueOf(dbpunto.mostrarPunto(1)), Toast.LENGTH_SHORT).show();
   }
+
+  /** Updates the image view with the latest {@link HandsResult}. */
+  public void update() {
+    postInvalidate();
+    if (latest != null) {
+      setImageBitmap(latest);
+    }
+    //MostrarDatosSenas();
+  }
+
+  /** Dibujar mano en la capa agregada al inicio*/
   private void drawLandmarksOnCanvas(
       List<NormalizedLandmark> handLandmarkList,
       boolean isLeftHand,
@@ -126,11 +220,9 @@ public class HandsResultImageView extends AppCompatImageView {
       int width,
       int height) {
     // Draw connections.
-
     for (Hands.Connection c : Hands.HAND_CONNECTIONS) {
       Paint connectionPaint = new Paint();
-      connectionPaint.setColor(
-          isLeftHand ? LEFT_HAND_CONNECTION_COLOR : RIGHT_HAND_CONNECTION_COLOR);
+      connectionPaint.setColor(isLeftHand ? LEFT_HAND_CONNECTION_COLOR : RIGHT_HAND_CONNECTION_COLOR);
       connectionPaint.setStrokeWidth(CONNECTION_THICKNESS);
       NormalizedLandmark start = handLandmarkList.get(c.start());
       NormalizedLandmark end = handLandmarkList.get(c.end());
@@ -142,6 +234,7 @@ public class HandsResultImageView extends AppCompatImageView {
           end.getY() * height,
           connectionPaint);
     }
+    /*
     Paint landmarkPaint = new Paint();
     landmarkPaint.setColor(isLeftHand ? LEFT_HAND_LANDMARK_COLOR : RIGHT_HAND_LANDMARK_COLOR);
     // Draws landmarks.
@@ -205,5 +298,6 @@ public class HandsResultImageView extends AppCompatImageView {
       }
     }
     this.setMensaje(mensaje);
+    */
   }
 }

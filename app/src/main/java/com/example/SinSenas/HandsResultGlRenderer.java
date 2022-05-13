@@ -15,6 +15,7 @@
 package com.example.SinSenas;
 
 import android.app.Activity;
+import android.content.Context;
 import android.opengl.GLES20;
 import android.util.Log;
 import android.widget.TextView;
@@ -60,6 +61,11 @@ public class HandsResultGlRenderer implements ResultGlRenderer<HandsResult> {
   private int positionHandle;
   private int projectionMatrixHandle;
   private int colorHandle;
+  Context contextoo;
+  private String mensaje;
+
+  private void setMensaje(String m) {this.mensaje = m;}
+  public String getMensaje() {return this.mensaje != null ? this.mensaje : "";}
 
   private int loadShader(int type, String shaderCode) {
     int shader = GLES20.glCreateShader(type);
@@ -93,9 +99,10 @@ public class HandsResultGlRenderer implements ResultGlRenderer<HandsResult> {
     int numHands = result.multiHandLandmarks().size();
     for (int i = 0; i < numHands; ++i) {
       boolean isLeftHand = result.multiHandedness().get(i).getLabel().equals("Left");
-      drawConnections(
+      /*drawConnections(
           result.multiHandLandmarks().get(i).getLandmarkList(),
-          isLeftHand ? LEFT_HAND_CONNECTION_COLOR : RIGHT_HAND_CONNECTION_COLOR);
+          isLeftHand ? LEFT_HAND_CONNECTION_COLOR : RIGHT_HAND_CONNECTION_COLOR);*/
+      String mensaje = "";
       for (NormalizedLandmark landmark : result.multiHandLandmarks().get(i).getLandmarkList()) {
         // Draws the landmark.
         drawCircle(
@@ -103,11 +110,16 @@ public class HandsResultGlRenderer implements ResultGlRenderer<HandsResult> {
             landmark.getY(),
             isLeftHand ? LEFT_HAND_LANDMARK_COLOR : RIGHT_HAND_LANDMARK_COLOR);
         // Draws a hollow circle around the landmark.
-        drawHollowCircle(
-            landmark.getX(),
-            landmark.getY(),
-            isLeftHand ? LEFT_HAND_HOLLOW_CIRCLE_COLOR : RIGHT_HAND_HOLLOW_CIRCLE_COLOR);
+          mensaje += "X: ";
+          mensaje += String.valueOf(landmark.getX());
+          mensaje += "\n";
+          /*drawHollowCircle(
+                  landmark.getX(),
+                  landmark.getY(),
+                  isLeftHand ? LEFT_HAND_HOLLOW_CIRCLE_COLOR : RIGHT_HAND_HOLLOW_CIRCLE_COLOR);
+           */
       }
+      this.setMensaje(mensaje);
     }
   }
 
@@ -152,13 +164,9 @@ public class HandsResultGlRenderer implements ResultGlRenderer<HandsResult> {
       vertices[currentIndex] = x + (float) (LANDMARK_RADIUS * Math.cos(angle));
       vertices[currentIndex + 1] = y + (float) (LANDMARK_RADIUS * Math.sin(angle));
       vertices[currentIndex + 2] = 0;
-      Log.i("------------------° ","-----------------------------------");
-      Log.i("Punto N° ",String.valueOf(i));
-      Log.i("Vertice X", String.valueOf(vertices[currentIndex]));
-      Log.i("Vertice Y", String.valueOf(vertices[currentIndex + 1]));
     }
 
-   /* FloatBuffer vertexBuffer =
+    FloatBuffer vertexBuffer =
         ByteBuffer.allocateDirect(vertices.length * 4)
             .order(ByteOrder.nativeOrder())
             .asFloatBuffer()
@@ -166,7 +174,7 @@ public class HandsResultGlRenderer implements ResultGlRenderer<HandsResult> {
     vertexBuffer.position(0);
     GLES20.glEnableVertexAttribArray(positionHandle);
     GLES20.glVertexAttribPointer(positionHandle, 3, GLES20.GL_FLOAT, false, 0, vertexBuffer);
-    GLES20.glDrawArrays(GLES20.GL_TRIANGLE_FAN, 0, vertexCount);*/
+    GLES20.glDrawArrays(GLES20.GL_TRIANGLE_FAN, 0, vertexCount);
 
   }
 
@@ -181,7 +189,7 @@ public class HandsResultGlRenderer implements ResultGlRenderer<HandsResult> {
       vertices[currentIndex + 1] = y + (float) (HOLLOW_CIRCLE_RADIUS * Math.sin(angle));
       vertices[currentIndex + 2] = 0;
     }
-    /*FloatBuffer vertexBuffer =
+    FloatBuffer vertexBuffer =
         ByteBuffer.allocateDirect(vertices.length * 4)
             .order(ByteOrder.nativeOrder())
             .asFloatBuffer()
@@ -189,6 +197,6 @@ public class HandsResultGlRenderer implements ResultGlRenderer<HandsResult> {
     vertexBuffer.position(0);
     GLES20.glEnableVertexAttribArray(positionHandle);
     GLES20.glVertexAttribPointer(positionHandle, 3, GLES20.GL_FLOAT, false, 0, vertexBuffer);
-    GLES20.glDrawArrays(GLES20.GL_LINE_STRIP, 0, vertexCount);*/
+    GLES20.glDrawArrays(GLES20.GL_LINE_STRIP, 0, vertexCount);
   }
 }
