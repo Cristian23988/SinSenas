@@ -14,6 +14,7 @@
     <color name="ColorAzul">#1687A7</color>
     <color name="ColorSecondary">#2ABBAC</color>
     <color name="ColorTerceary">#90CAEA</color>
+    <color name="ColorCuarth">#721A98BC</color>
 
     <!--Text colors -->
     <color name="ColorTextPrimary">#334257</color>
@@ -21,5 +22,9 @@
     <color name="ColorTextTerceary">#345B63</color>
 
     <!--Buttons colors -->
-    <color name="ColorBtnHome">#54D4EA</color>
+    <color name="ColorBtnPrimary">#0383AA</color>
+    <color name="ColorBtnNav">#EEEEEE</color>
+
+    <!--Border colors -->
+    <color name="ColorBorderPrimary">#243245</color>
 </resources>
