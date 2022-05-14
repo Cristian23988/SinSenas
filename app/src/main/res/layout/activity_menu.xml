@@ -35,7 +35,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:gravity="left"
-            android:text="@string/text_subtitulo"
+            android:text="@string/app_categoria"
             android:textColor="@color/ColorFondo"
             android:textSize="28sp"
             android:visibility="visible" />
@@ -45,8 +45,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="10pt"
-        app:layout_constraintBottom_toTopOf="@+id/buttons_menu"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
         <ListView
@@ -62,73 +60,103 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/buttons_menu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5pt"
+        android:layout_height="78dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <View
             android:id="@+id/bgMenu"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@drawable/bg_menu_nav"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/btnAprendizaje"
-            app:layout_constraintStart_toStartOf="@+id/btnTraductor"
-            app:layout_constraintTop_toTopOf="@+id/btnAprendizaje" />
+            app:layout_constraintEnd_toEndOf="@+id/btnTraductor"
+            app:layout_constraintHorizontal_bias="0.59"
+            app:layout_constraintStart_toStartOf="@+id/btnAprendizaje"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
         <View
             android:id="@+id/bgBtnHome"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="-5pt"
-            android:layout_marginTop="-5pt"
-            android:layout_marginEnd="-5pt"
-            android:layout_marginBottom="-5pt"
-            android:background="@drawable/bg_button_home"
-            app:layout_constraintBottom_toBottomOf="@+id/btnHome"
-            app:layout_constraintEnd_toEndOf="@+id/btnHome"
-            app:layout_constraintStart_toStartOf="@+id/btnHome"
-            app:layout_constraintTop_toTopOf="@+id/btnHome" />
+            android:layout_marginStart="-3pt"
+            android:layout_marginTop="-3pt"
+            android:layout_marginEnd="-3pt"
+            android:layout_marginBottom="-3pt"
+            android:background="@drawable/bg_button_nav"
+            app:layout_constraintBottom_toBottomOf="@id/btnAprendizaje"
+            app:layout_constraintEnd_toEndOf="@id/btnAprendizaje"
+            app:layout_constraintStart_toStartOf="@id/btnAprendizaje"
+            app:layout_constraintTop_toTopOf="@id/btnAprendizaje" />
 
         <Button
 
-            android:id="@+id/btnTraductor"
+            android:id="@+id/btnAprendizaje"
             style="@style/Theme.SinSenas.ButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="56dp"
+            android:layout_height="50dp"
             android:layout_marginEnd="4sp"
+            android:layout_marginBottom="2pt"
+            android:background="@drawable/gorro_de_graduacion_black"
+            android:contentDescription="@string/app_Menu"
             android:gravity="center"
-            android:text="@string/app_traductor"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btnHome"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/textViewTraductorNav"
+            style="@style/Theme.SinSenas.TextviewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1pt"
+            android:text="@string/title_home"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/btnHome"
+            app:layout_constraintStart_toStartOf="@+id/btnHome" />
+
+        <TextView
+            android:id="@+id/textViewAprendizajeNav"
+            style="@style/Theme.SinSenas.TextviewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1pt"
+            android:text="@string/app_traductor"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/btnTraductor"
+            app:layout_constraintStart_toStartOf="@id/btnTraductor" />
+
         <Button
             android:id="@+id/btnHome"
-            android:layout_width="58sp"
-            android:layout_height="60sp"
-            android:layout_marginBottom="15pt"
-            android:background="@drawable/casa_icono_black"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/casa_icono_white"
             android:contentDescription="@string/app_inicio"
             android:gravity="bottom|center"
             android:textColor="@color/white"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/textViewTraductorNav"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/btnAprendizaje"
+            android:id="@+id/btnTraductor"
             style="@style/Theme.SinSenas.ButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="52dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="1pt"
+            android:background="@drawable/traductor_white"
+            android:contentDescription="@string/app_traductor"
             android:gravity="center"
-            android:text="@string/app_Menu"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/textViewAprendizajeNav"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/btnHome"
             app:layout_constraintTop_toTopOf="parent" />

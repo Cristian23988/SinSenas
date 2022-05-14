@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.SinSenas.db.DbCatego;
 import com.example.SinSenas.Class.ModeloTemario;
-import com.example.SinSenas.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +29,8 @@ public class Menu extends AppCompatActivity implements AdapterView.OnItemClickLi
         setContentView(R.layout.activity_menu);
         /*Menu Nav*/
         Button btnHome = (Button) findViewById(R.id.btnHome);
+        Button btnAprendizaje = (Button) findViewById(R.id.btnAprendizaje);
         Button btnTraductor = (Button) findViewById(R.id.btnTraductor);
-        Button btnAprednizaje = (Button) findViewById(R.id.btnAprendizaje);
 
         btnHome.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -39,19 +38,15 @@ public class Menu extends AppCompatActivity implements AdapterView.OnItemClickLi
                 startActivity(intent);
             }
         });
-        btnAprednizaje.setOnClickListener(new View.OnClickListener() {
+        btnAprendizaje.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(Menu.this, Menu.class);
-                String subtitle = "Categorias";
-                intent.putExtra(EXTRA_MESSAGE, subtitle);
                 startActivity(intent);
             }
         });
         btnTraductor.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(Menu.this, Translate.class);
-                String subtitle = "Gestos a texto";
-                intent.putExtra(EXTRA_MESSAGE, subtitle);
                 startActivity(intent);
             }
         });
@@ -59,9 +54,6 @@ public class Menu extends AppCompatActivity implements AdapterView.OnItemClickLi
 
         /*Iniciailizar*/
         Intent intent = getIntent();
-        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        TextView textView = findViewById(R.id.textViewTemas);
-        textView.setText(message);
         mListView = (ListView) findViewById(R.id.listaDinamica);
         mListView.setOnItemClickListener(this);
 

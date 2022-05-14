@@ -15,39 +15,20 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.example.SinSenas.Class.DescripcionTema;
-import com.example.SinSenas.Class.Punto;
-import com.example.SinSenas.Class.Sena;
-import com.example.SinSenas.R;
-import com.example.SinSenas.db.DbDescripcion;
-import com.example.SinSenas.db.DbPunto;
-import com.example.SinSenas.db.DbSena;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import com.example.SinSenas.databinding.TranslateActivityMainBinding;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 
 // ContentResolver dependency
-import com.google.mediapipe.formats.proto.LandmarkProto.Landmark;
-import com.google.mediapipe.formats.proto.LandmarkProto.NormalizedLandmark;
+import com.example.SinSenas.databinding.TranslateActivityMainBinding;
 import com.google.mediapipe.solutioncore.CameraInput;
 import com.google.mediapipe.solutioncore.SolutionGlSurfaceView;
 import com.google.mediapipe.solutioncore.VideoInput;
-import com.google.mediapipe.solutions.hands.HandLandmark;
 import com.google.mediapipe.solutions.hands.Hands;
 import com.google.mediapipe.solutions.hands.HandsOptions;
 import com.google.mediapipe.solutions.hands.HandsResult;
@@ -91,8 +72,8 @@ public class Translate extends AppCompatActivity {
 
         /*Menu Nav*/
         Button btnHome = (Button) findViewById(R.id.btnHome);
+        Button btnAprendizaje = (Button) findViewById(R.id.btnAprendizaje);
         Button btnTraductor = (Button) findViewById(R.id.btnTraductor);
-        Button btnAprednizaje = (Button) findViewById(R.id.btnAprendizaje);
 
         btnHome.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -100,19 +81,15 @@ public class Translate extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        btnAprednizaje.setOnClickListener(new View.OnClickListener() {
+        btnAprendizaje.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(Translate.this, Menu.class);
-                String subtitle = "Categorias";
-                intent.putExtra(EXTRA_MESSAGE, subtitle);
                 startActivity(intent);
             }
         });
         btnTraductor.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(Translate.this, Translate.class);
-                String subtitle = "Gestos a texto";
-                intent.putExtra(EXTRA_MESSAGE, subtitle);
                 startActivity(intent);
             }
         });

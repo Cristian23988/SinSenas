@@ -15,6 +15,13 @@
         <item name="android:textColor">@color/ColorFondo</item>
         <item name="android:textSize">20pt</item>
     </style>
+    <style name="Theme.SinSenas.TextviewStyleTitle" parent="@android:style/Widget.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/ColorFondo</item>
+        <item name="android:textSize">20pt</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
     <style name="Theme.SinSenas.ButtonStyle" parent="@android:style/Widget.Button">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

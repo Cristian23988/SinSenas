@@ -72,7 +72,7 @@ public class HandsResultImageView extends AppCompatImageView {
     if (result == null) {
       return;
     }
-
+      
     //crea una capa encima de la imagen para mostrar los puntos, es decir no edita la imagen
     Bitmap bmInput = result.inputBitmap();
     int width = bmInput.getWidth();

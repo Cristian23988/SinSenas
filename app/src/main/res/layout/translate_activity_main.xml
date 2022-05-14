@@ -5,7 +5,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/ColorAzul">
+    android:background="@color/ColorFondo">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
@@ -13,6 +13,8 @@
         android:layout_height="0dp"
         android:layout_marginTop="2pt"
         app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
@@ -30,7 +32,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2pt"
-                android:text="@string/load_picture" />
+                android:background="@drawable/bg_button_redonded_secondary"
+                android:text="@string/load_picture"
+                android:textColor="@color/ColorFondo" />
 
             <Button
                 android:id="@+id/button_load_video"
@@ -38,33 +42,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2pt"
-                android:text="@string/load_video" />
+                android:background="@drawable/bg_button_redonded_secondary"
+                android:text="@string/load_video"
+                android:textColor="@color/ColorFondo" />
 
             <Button
                 android:id="@+id/button_start_camera"
                 style="@style/Theme.SinSenas.ButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/start_camera" />
+                android:background="@drawable/bg_button_redonded_secondary"
+                android:text="@string/start_camera"
+                android:textColor="@color/ColorFondo" />
         </LinearLayout>
 
         <FrameLayout
             android:id="@+id/preview_display_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@color/ColorTextSecondary"
+            android:background="@color/ColorCuarth"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/buttons">
 
-            <TextView
-                android:id="@+id/no_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/instruction"
-                android:visibility="invisible" />
-
-            <fragment
+            <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/nav_host_fragment_activity_main"
                 android:name="androidx.navigation.fragment.NavHostFragment"
                 android:layout_width="match_parent"
@@ -80,7 +80,7 @@
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="40pt"
+        android:layout_height="80pt"
         android:background="@drawable/bg_button_redonded"
         app:layout_constraintBottom_toTopOf="@+id/buttons_menu"
         app:layout_constraintEnd_toEndOf="parent"
@@ -91,6 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="3pt"
+            android:layout_marginTop="1pt"
             android:layout_marginEnd="3pt"
             android:orientation="vertical">
 
@@ -99,7 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="SI FUNCIONA CHAT" />
+                android:text="@string/mensajeChat" />
 
         </LinearLayout>
     </ScrollView>
@@ -107,55 +108,84 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/buttons_menu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5pt"
+        android:layout_height="78dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <View
             android:id="@+id/bgMenu"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@drawable/bg_menu_nav"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/btnAprendizaje"
-            app:layout_constraintStart_toStartOf="@+id/btnTraductor"
-            app:layout_constraintTop_toTopOf="@+id/btnAprendizaje" />
+            app:layout_constraintEnd_toEndOf="@+id/btnTraductor"
+            app:layout_constraintHorizontal_bias="0.59"
+            app:layout_constraintStart_toStartOf="@+id/btnAprendizaje"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
         <View
             android:id="@+id/bgBtnHome"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="-5pt"
-            android:layout_marginTop="-5pt"
-            android:layout_marginEnd="-5pt"
-            android:layout_marginBottom="-5pt"
-            android:background="@drawable/bg_button_home"
-            app:layout_constraintBottom_toBottomOf="@+id/btnHome"
-            app:layout_constraintEnd_toEndOf="@+id/btnHome"
-            app:layout_constraintStart_toStartOf="@+id/btnHome"
-            app:layout_constraintTop_toTopOf="@+id/btnHome" />
+            android:layout_marginStart="-3pt"
+            android:layout_marginTop="-3pt"
+            android:layout_marginEnd="-3pt"
+            android:layout_marginBottom="-3pt"
+            android:background="@drawable/bg_button_nav"
+            app:layout_constraintBottom_toBottomOf="@id/btnTraductor"
+            app:layout_constraintEnd_toEndOf="@id/btnTraductor"
+            app:layout_constraintStart_toStartOf="@id/btnTraductor"
+            app:layout_constraintTop_toTopOf="@id/btnTraductor" />
 
         <Button
 
-            android:id="@+id/btnTraductor"
+            android:id="@+id/btnAprendizaje"
             style="@style/Theme.SinSenas.ButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="56dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="1pt"
             android:layout_marginEnd="4sp"
+            android:background="@drawable/gorro_de_graduacion_white"
+            android:contentDescription="@string/app_Menu"
             android:gravity="center"
-            android:text="@string/app_traductor"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/textViewTraductorNav"
             app:layout_constraintEnd_toStartOf="@+id/btnHome"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/textViewTraductorNav"
+            style="@style/Theme.SinSenas.TextviewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1pt"
+            android:text="@string/app_Menu"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/btnAprendizaje"
+            app:layout_constraintStart_toStartOf="@+id/btnAprendizaje" />
+
+        <TextView
+            android:id="@+id/textViewAprendizajeNav"
+            style="@style/Theme.SinSenas.TextviewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1pt"
+            android:text="@string/title_home"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/btnHome"
+            app:layout_constraintStart_toStartOf="@id/btnHome" />
+
         <Button
             android:id="@+id/btnHome"
-            android:layout_width="58sp"
-            android:layout_height="60sp"
-            android:layout_marginBottom="15pt"
-            android:background="@drawable/casa_icono_black"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="5pt"
+            android:background="@drawable/casa_icono_white"
             android:contentDescription="@string/app_inicio"
             android:gravity="bottom|center"
             android:textColor="@color/white"
@@ -166,14 +196,16 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/btnAprendizaje"
+            android:id="@+id/btnTraductor"
             style="@style/Theme.SinSenas.ButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="52dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="7pt"
+            android:background="@drawable/traductor_black"
+            android:contentDescription="@string/app_traductor"
             android:gravity="center"
-            android:text="@string/app_Menu"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/textViewAprendizajeNav"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/btnHome"
             app:layout_constraintTop_toTopOf="parent" />

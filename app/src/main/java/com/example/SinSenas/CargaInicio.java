@@ -33,8 +33,8 @@ public class CargaInicio extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carga_inicio);
-        fireRta=(TextView) findViewById(R.id.rtaFirebase);
-        Continuar(2500);
+        //fireRta=(TextView) findViewById(R.id.rtaFirebase);
+        Continuar(5000);
     }
 
     @Override
@@ -44,10 +44,10 @@ public class CargaInicio extends AppCompatActivity {
         mRooChild.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                fireRta.setText("Cargando BD...");
-                String texto=snapshot.getValue().toString();
-                    fireRta.setText(texto);
-                    fireRta.setTextColor(Color.RED);
+                //fireRta.setText("Cargando BD...");
+                String texto = snapshot.getValue().toString();
+                /*fireRta.setText(texto);
+                fireRta.setTextColor(Color.RED);*/
 
                 }
 
