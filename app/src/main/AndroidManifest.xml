@@ -6,6 +6,7 @@
     <uses-sdk
         android:minSdkVersion="21"
         android:targetSdkVersion="30" />
+
     <!-- For loading images from gallery -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- For using the camera -->
     <uses-permission android:name="android.permission.CAMERA" />
@@ -25,21 +26,26 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SinSenas">
         <activity
-            android:name=".CargaInicio"
-            android:exported="true" >
-            android:label="@string/app_name">
+            android:name=".FullscreenActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.SinSenas.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity
+            android:name=".CargaInicio"
+            android:exported="true">
+            android:label="@string/app_name">
+        </activity>
         <activity
             android:name=".MainActivity"
             android:exported="false"
-            android:label="@string/app_name">
-        </activity>
+            android:label="@string/app_name" />
         <activity
             android:name=".TemasAprend"
             android:exported="false"

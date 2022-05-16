@@ -8,9 +8,13 @@
     <string name="mensajeChat" translatable="false">Chat: </string>
     <string name="app_name">SinSeñas</string>
     <string name="app_cargando">Cargando</string>
-    <string name="app_inicio" >Inicio</string>
+    <string name="app_inicio">Inicio</string>
     <string name="app_Menu">Aprendizaje</string>
     <string name="app_categoria">Categorias</string>
     <string name="app_traductor">Traductor</string>
     <string name="text_subtitulo">Subtitulo</string>
+    <string name="title_activity_fullscreen_inicio">FullscreenActivityInicio</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
 </resources>
