@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -66,13 +67,13 @@ public class Menu extends AppCompatActivity implements AdapterView.OnItemClickLi
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        //Toast.makeText(Menu.this, "Has pulsado: " + position, Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(Menu.this, TemasAprend.class);
-        String message = String.valueOf(position);
-        intent.putExtra(EXTRA_MESSAGE, message);
-        intent.putExtra("nombreItem", mAdapter.getItem(position).getNombre());
-        intent.putExtra("IdItem", String.valueOf(position));
-
-        startActivity(intent);
+        if(mAdapter.getItem(position).getEstado().equals("Activo")){
+            Intent intent = new Intent(Menu.this, TemasAprend.class);
+            String message = String.valueOf(position);
+            intent.putExtra(EXTRA_MESSAGE, message);
+            intent.putExtra("nombreItem", mAdapter.getItem(position).getNombre());
+            intent.putExtra("IdItem", String.valueOf(position));
+            startActivity(intent);
+        }
     }
 }

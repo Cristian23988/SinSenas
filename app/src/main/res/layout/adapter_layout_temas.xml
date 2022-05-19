@@ -9,26 +9,15 @@
         android:id="@+id/imageLetra"
         android:layout_width="match_parent"
         android:layout_height="25pt"
-        android:layout_marginStart="10pt">
-
-        <View
-            android:id="@+id/view3"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="3pt"
-            android:background="@drawable/bg_button_redonded"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@+id/nameTema"
-            app:layout_constraintEnd_toEndOf="@+id/nameTema"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textViewLetra" />
+        android:paddingStart="4pt"
+        android:paddingEnd="4pt">
 
         <TextView
             android:id="@+id/textViewLetra"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="3pt"
-            android:text="T"
+            android:text="@string/t"
             android:textColor="@color/ColorTextSecondary"
             android:textSize="21pt"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -46,6 +35,18 @@
             android:textSize="12pt"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textViewLetra" />
+
+        <ImageView
+            android:id="@+id/temaDisable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1pt"
+            android:contentDescription="@string/text_img_senas_aprendizaje"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/nameTema"
+            app:layout_constraintStart_toEndOf="@+id/nameTema"
+            app:layout_constraintTop_toTopOf="@+id/nameTema"
+            app:srcCompat="@android:drawable/ic_secure" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

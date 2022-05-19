@@ -15,6 +15,7 @@
     <color name="ColorSecondary">#2ABBAC</color>
     <color name="ColorTerceary">#90CAEA</color>
     <color name="ColorCuarth">#721A98BC</color>
+    <color name="ColorDisable">#3C57BAD6</color>
 
     <!--Text colors -->
     <color name="ColorTextPrimary">#334257</color>

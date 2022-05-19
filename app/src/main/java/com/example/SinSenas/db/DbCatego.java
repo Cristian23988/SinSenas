@@ -29,7 +29,7 @@ public class DbCatego extends DbHelper {
 
         return false;
     }
-    public long insertCatego(String nombre) {
+    public long insertCatego(String nombre, String estado) {
         long id = 0;
         boolean vacia=Vacia();
         if (vacia==false){
@@ -39,6 +39,7 @@ public class DbCatego extends DbHelper {
             ContentValues values = new ContentValues();
             values.put("imagen", R.mipmap.ic_launcher);
             values.put("nombre", nombre);
+            values.put("estado", estado);
             id = db.insert(TABLE_CATEGO, null, values);
         } catch (Exception ex) {
             ex.toString();
@@ -63,11 +64,11 @@ public class DbCatego extends DbHelper {
                 categorias.setId(cursorCateg.getInt(0));
                 categorias.setImagen(cursorCateg.getInt(1));
                 categorias.setNombre(cursorCateg.getString(2));
+                categorias.setEstado(cursorCateg.getString(3));
                 ListaCatego.add(categorias);
             }while(cursorCateg.moveToNext());
         }
         cursorCateg.close();
-        Log.i("", String.valueOf(ListaCatego));
         return ListaCatego;
     }
 
