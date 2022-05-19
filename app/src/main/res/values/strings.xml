@@ -1,4 +1,10 @@
 <resources>
+    <string name="app_name">SinSeñas</string>
+    <string name="app_cargando">Cargando</string>
+    <string name="app_inicio">Inicio</string>
+    <string name="app_Menu">Aprendizaje</string>
+    <string name="app_categoria">Categorias</string>
+    <string name="app_traductor">Traductor</string>
     <string name="title_home">Inicio</string>
     <string name="title_bienvenido">Bienvenido</string>
     <string name="load_picture" translatable="false">Cargar Foto</string>
@@ -6,11 +12,8 @@
     <string name="start_camera" translatable="false">Abrir Camara</string>
     <string name="instruction" translatable="false">Please press any button above to start</string>
     <string name="mensajeChat" translatable="false">Chat: </string>
-    <string name="app_name">SinSeñas</string>
-    <string name="app_cargando">Cargando</string>
-    <string name="app_inicio" >Inicio</string>
-    <string name="app_Menu">Aprendizaje</string>
-    <string name="app_categoria">Categorias</string>
-    <string name="app_traductor">Traductor</string>
     <string name="text_subtitulo">Subtitulo</string>
+    <string name="text_titulo">Titulo</string>
+    <string name="text_img_senas_aprendizaje">Aprendizaje del Lenguaje de Señas Colombiano</string>
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
 </resources>

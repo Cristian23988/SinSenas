@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginHorizontal="16dp">
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginBottom="10pt">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -18,48 +19,68 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="8dp"
-            app:cardCornerRadius="16dp"
-            android:elevation="8dp">
+            android:elevation="8dp"
+            app:cardCornerRadius="16dp">
 
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp">
 
                 <ImageView
                     android:id="@+id/ivimage"
                     android:layout_width="match_parent"
-                    android:layout_height="110pt"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/tvHeading"
+                    android:layout_alignParentTop="true"
                     android:layout_marginStart="5pt"
-                    android:layout_marginTop="5pt"
                     android:layout_marginEnd="5pt"
-                    android:layout_marginBottom="2pt"
-                    android:scaleType="centerCrop"
+                    android:layout_marginBottom="10dp"
+                    android:contentDescription="@string/text_img_senas_aprendizaje"
+                    android:scaleType="centerInside"
                     android:src="@drawable/logosinsenas" />
 
+
+                <ScrollView
+                    android:id="@+id/scrollView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="25.6pt"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <LinearLayout
+                        android:id="@+id/linearChat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4pt"
+                        android:layout_marginEnd="3pt"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvDesc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/text_subtitulo"
+                            android:textColor="@color/black" />
+
+                    </LinearLayout>
+                </ScrollView>
 
                 <TextView
                     android:id="@+id/tvHeading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/ivimage"
+                    android:layout_above="@+id/scrollView2"
                     android:layout_marginStart="4pt"
-                    android:layout_marginTop="1pt"
-                    android:text="Baked"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/text_titulo"
                     android:textColor="@color/black"
-                    android:textSize="26dp"
+                    android:textSize="26sp"
                     android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tvDesc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tvHeading"
-                    android:layout_marginStart="4pt"
-                    android:layout_marginTop="4pt"
-                    android:layout_marginEnd="4pt"
-                    android:layout_marginBottom="8pt"
-                    android:text="@string/app_inicio" />
 
             </RelativeLayout>
 

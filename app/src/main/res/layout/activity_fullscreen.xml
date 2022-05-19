@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/ColorFondo"
-    tools:context=".CargaInicio">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/fullscreenBackgroundColor"
+    android:theme="@style/ThemeOverlay.SinSenas.FullscreenContainer"
+    tools:context=".FullscreenActivity">
+
+    <!-- The primary full-screen view. This can be replaced with whatever view
+         is needed to present your content, e.g. VideoView, SurfaceView,
+         TextureView, etc. -->
 
     <TextView
-        android:id="@+id/rtaFirebase"
+        android:id="@+id/fullscreen_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="28pt"
+        android:layout_marginBottom="40pt"
+        android:gravity="center"
+        android:keepScreenOn="true"
         android:text="@string/app_cargando"
-        android:textColor="@color/ColorTextPrimary"
-        android:textSize="30sp"
-        android:textStyle="bold|italic"
+        android:textColor="#FFFFFF"
+        android:textSize="50sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -25,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="-12pt"
-        app:layout_constraintBottom_toTopOf="@+id/rtaFirebase"
+        app:layout_constraintBottom_toTopOf="@+id/fullscreen_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -33,4 +40,8 @@
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/animation_mobile"
         app:lottie_url="REPLACE_JSON_URL" />
+
+    <!-- This FrameLayout insets its children based on system windows using
+         android:fitsSystemWindows. -->
+
 </androidx.constraintlayout.widget.ConstraintLayout>

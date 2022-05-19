@@ -22,13 +22,13 @@ public class DbDescripcion extends DbHelper {
         this.context = context;
     }
 
-    public long insertDescription(String titulo,String descripcion, int id_Catego) {
+    public long insertDescription(String titulo, Object img, String descripcion, int id_Catego) {
         long id = 0;
         try {
             DbHelper dbHelper = new DbHelper(context);
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             ContentValues values = new ContentValues();
-            values.put("imagen", R.mipmap.ic_launcher);
+            values.put("imagen", (Integer) img);
             values.put("titulo", titulo);
             values.put("descripcion", descripcion);
             values.put("id_Catego", id_Catego);

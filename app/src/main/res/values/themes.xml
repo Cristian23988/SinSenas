@@ -9,12 +9,14 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">@color/ColorAzul</item>
     </style>
+
     <style name="Theme.SinSenas.TextviewStyle" parent="@android:style/Widget.TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/ColorFondo</item>
         <item name="android:textSize">20pt</item>
     </style>
+
     <style name="Theme.SinSenas.TextviewStyleTitle" parent="@android:style/Widget.TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -22,6 +24,7 @@
         <item name="android:textSize">20pt</item>
         <item name="android:fontFamily">sans-serif</item>
     </style>
+
     <style name="Theme.SinSenas.ButtonStyle" parent="@android:style/Widget.Button">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -31,5 +34,16 @@
         <item name="android:textSize">16sp</item>
         <item name="android:paddingLeft">5sp</item>
         <item name="android:paddingRight">5sp</item>
+    </style>
+
+    <style name="Theme.SinSenas.Fullscreen" parent="Theme.SinSenas">
+        <item name="android:actionBarStyle">@style/Widget.Theme.SinSenas.ActionBar.Fullscreen</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@null</item>
+    </style>
+
+    <style name="ThemeOverlay.SinSenas.FullscreenContainer" parent="">
+        <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
+        <item name="fullscreenTextColor">@color/light_blue_A200</item>
     </style>
 </resources>
