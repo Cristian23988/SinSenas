@@ -153,26 +153,50 @@ public class FullscreenActivity extends AppCompatActivity {
         DbDescripcion dbDescripcion = new DbDescripcion(contexto);
 
         ////DICCIONARIO
-        dbDescripcion.insertDescription("Buenos días", "Saludo basico empleado por gran parte de la poblacióna", 0);
-        dbDescripcion.insertDescription("Buenas tardes", "Saludo basico empleado por gran parte de la poblacióna", 0);
-        dbDescripcion.insertDescription("Buenas noches", "Saludo basico empleado por gran parte de la poblacióna", 0);
-        dbDescripcion.insertDescription("Hasta luego", "Saludo basico empleado por gran parte de la poblacióna", 0);
+        dbDescripcion.insertDescription("Buenos días", R.drawable.apre_saludos_buenosdias, "Saludo basico empleado por gran parte de la población que apoya y cree en las propuestas de Petro Presidente jejeje xd que mas se hace a ver quen tanto aguenta la imagen que esta arriba de este texto por si solo se pretende que sea respohsive dado la caomplejidad que presenta al estar en esta etapa de desarrollo. \n Ahora un salto de linea para probar si \nla teoria es cierta.\n Ahora un salto de linea para probar si \nla teoria es cierta.\n Ahora un salto de linea para probar si \nla teoria es cierta.", 0);
+        dbDescripcion.insertDescription("Buenas tardes", R.drawable.apre_saludos_buenasnoches, "Saludo basico empleado por gran parte de la poblacióna", 0);
+        dbDescripcion.insertDescription("Buenas noches", R.drawable.apre_saludos_buenastardes, "Saludo basico empleado por gran parte de la poblacióna", 0);
+        dbDescripcion.insertDescription("Hola", R.drawable.apre_saludos_hola, "Saludo basico empleado por gran parte de la poblacióna", 0);
+
         ////ALFABETO
-        dbDescripcion.insertDescription("TITULO 2", "Saludo basico empleado por gran parte de la poblacióna", 1);
-        dbDescripcion.insertDescription("TITULO 2", "Saludo basico empleado por gran parte de la poblacióna", 1);
-        dbDescripcion.insertDescription("TITULO 2", "Saludo basico empleado por gran parte de la poblacióna", 1);
-        dbDescripcion.insertDescription("TITULO 2", "Saludo basico empleado por gran parte de la poblacióna", 1);
+        dbDescripcion.insertDescription("Aa", R.drawable.apre_abc_a, "Saludo basico empleado por gran parte de la poblacióna", 1);
+        dbDescripcion.insertDescription("Bb", R.drawable.apre_abc_b, "Saludo basico empleado por gran parte de la poblacióna", 1);
+        dbDescripcion.insertDescription("Cc", R.drawable.apre_abc_c, "Saludo basico empleado por gran parte de la poblacióna", 1);
+        dbDescripcion.insertDescription("Dd", R.drawable.apre_abc_d, "Saludo basico empleado por gran parte de la poblacióna", 1);
+        dbDescripcion.insertDescription("Ee", R.drawable.apre_abc_e, "Saludo basico empleado por gran parte de la poblacióna", 1);
+        dbDescripcion.insertDescription("Ff", R.drawable.apre_abc_f, "Saludo basico empleado por gran parte de la poblacióna", 1);
+        dbDescripcion.insertDescription("Gg", R.drawable.apre_abc_g, "Saludo basico empleado por gran parte de la poblacióna", 1);
+        dbDescripcion.insertDescription("Hh", R.drawable.apre_abc_h, "Saludo basico empleado por gran parte de la poblacióna", 1);
+        dbDescripcion.insertDescription("Ii", R.drawable.apre_abc_i, "Saludo basico empleado por gran parte de la poblacióna", 1);
+        dbDescripcion.insertDescription("Jj", R.drawable.apre_abc_j, "Saludo basico empleado por gran parte de la poblacióna", 1);
+        dbDescripcion.insertDescription("Kk", R.drawable.apre_abc_k, "Saludo basico empleado por gran parte de la poblacióna", 1);
+        dbDescripcion.insertDescription("Ll", R.drawable.apre_abc_l, "Saludo basico empleado por gran parte de la poblacióna", 1);
+        dbDescripcion.insertDescription("Mm", R.drawable.apre_abc_m, "Saludo basico empleado por gran parte de la poblacióna", 1);
+        dbDescripcion.insertDescription("Nn", R.drawable.apre_abc_n, "Saludo basico empleado por gran parte de la poblacióna", 1);
+        dbDescripcion.insertDescription("Ññ", R.drawable.apre_abc_nn, "Saludo basico empleado por gran parte de la poblacióna", 1);
+        dbDescripcion.insertDescription("Oo", R.drawable.apre_abc_o, "Saludo basico empleado por gran parte de la poblacióna", 1);
+        dbDescripcion.insertDescription("Pp", R.drawable.apre_abc_p, "Saludo basico empleado por gran parte de la poblacióna", 1);
+        dbDescripcion.insertDescription("Qq", R.drawable.apre_abc_q, "Saludo basico empleado por gran parte de la poblacióna", 1);
+        dbDescripcion.insertDescription("Rr", R.drawable.apre_abc_r, "Saludo basico empleado por gran parte de la poblacióna", 1);
+        dbDescripcion.insertDescription("Ss", R.drawable.apre_abc_s, "Saludo basico empleado por gran parte de la poblacióna", 1);
+        dbDescripcion.insertDescription("Tt", R.drawable.apre_abc_t, "Saludo basico empleado por gran parte de la poblacióna", 1);
+        dbDescripcion.insertDescription("Uu", R.drawable.apre_abc_u, "Saludo basico empleado por gran parte de la poblacióna", 1);
+        dbDescripcion.insertDescription("Vv", R.drawable.apre_abc_v, "Saludo basico empleado por gran parte de la poblacióna", 1);
+        dbDescripcion.insertDescription("Ww", R.drawable.apre_abc_w, "Saludo basico empleado por gran parte de la poblacióna", 1);
+        dbDescripcion.insertDescription("Xx", R.drawable.apre_abc_x, "Saludo basico empleado por gran parte de la poblacióna", 1);
+        dbDescripcion.insertDescription("Yy", R.drawable.apre_abc_y, "Saludo basico empleado por gran parte de la poblacióna", 1);
+        dbDescripcion.insertDescription("Zz", R.drawable.apre_abc_z, "Saludo basico empleado por gran parte de la poblacióna", 1);
 
         ////FRASES
-        dbDescripcion.insertDescription("TITULO 3", "Saludo basico empleado por gran parte de la poblacióna", 2);
-        dbDescripcion.insertDescription("TITULO 3", "Saludo basico empleado por gran parte de la poblacióna", 2);
-        dbDescripcion.insertDescription("TITULO 3", "Saludo basico empleado por gran parte de la poblacióna",2);
-        dbDescripcion.insertDescription("TITULO 3", "Saludo basico empleado por gran parte de la poblacióna", 2);
+        dbDescripcion.insertDescription("TITULO 3", R.drawable.apre_abc_s, "Saludo basico empleado por gran parte de la poblacióna", 2);
+        dbDescripcion.insertDescription("TITULO 3", R.drawable.apre_abc_a, "Saludo basico empleado por gran parte de la poblacióna", 2);
+        dbDescripcion.insertDescription("TITULO 3", R.drawable.apre_abc_f, "Saludo basico empleado por gran parte de la poblacióna",2);
+        dbDescripcion.insertDescription("TITULO 3", R.drawable.apre_abc_e, "Saludo basico empleado por gran parte de la poblacióna", 2);
 
         ////EXPRESIONES
-        dbDescripcion.insertDescription("TITULO 4", "Saludo basico empleado por gran parte de la poblacióna", 3);
-        dbDescripcion.insertDescription("TITULO 4", "Saludo basico empleado por gran parte de la poblacióna", 3);
-        dbDescripcion.insertDescription("TITULO 4", "Saludo basico empleado por gran parte de la poblacióna", 3);
-        dbDescripcion.insertDescription("TITULO 4", "Saludo basico empleado por gran parte de la poblacióna", 3);
+        dbDescripcion.insertDescription("TITULO 4", R.drawable.apre_abc_h, "Saludo basico empleado por gran parte de la poblacióna", 3);
+        dbDescripcion.insertDescription("TITULO 4", R.drawable.apre_abc_j, "Saludo basico empleado por gran parte de la poblacióna", 3);
+        dbDescripcion.insertDescription("TITULO 4", R.drawable.apre_abc_k, "Saludo basico empleado por gran parte de la poblacióna", 3);
+        dbDescripcion.insertDescription("TITULO 4", R.drawable.apre_abc_u, "Saludo basico empleado por gran parte de la poblacióna", 3);
     }
 }

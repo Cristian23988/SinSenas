@@ -96,11 +96,12 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textConsola"
+                android:id="@+id/tvDesc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="@string/mensajeChat" />
+                android:text="@string/mensajeChat"
+                android:textColor="#616161" />
 
         </LinearLayout>
     </ScrollView>

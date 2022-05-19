@@ -38,11 +38,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CargaInicio"
-            android:exported="true">
-            android:label="@string/app_name">
-        </activity>
-        <activity
             android:name=".MainActivity"
             android:exported="false"
             android:label="@string/app_name" />
