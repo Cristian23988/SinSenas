@@ -47,7 +47,7 @@
             android:label="@string/app_Menu">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.SinSenas.MainActivity" />
+                android:value="com.example.SinSenas.Menu" />
         </activity>
         <activity
             android:name=".Translate"
