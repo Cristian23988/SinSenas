@@ -23,9 +23,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 // ContentResolver dependency
 import com.example.SinSenas.databinding.TranslateActivityMainBinding;
+import com.google.mediapipe.formats.proto.LandmarkProto;
 import com.google.mediapipe.solutioncore.CameraInput;
 import com.google.mediapipe.solutioncore.SolutionGlSurfaceView;
 import com.google.mediapipe.solutioncore.VideoInput;
@@ -240,22 +242,24 @@ public class Translate extends AppCompatActivity {
         //--Mensaje CHAT---------------------------------------------
                     //Elementos del chat
                     View linearLayout =  findViewById(R.id.linearChat);
-                    //Actualiza el chat despues de cargar imagen
-                    handler.postDelayed(new Runnable() {
-                        @SuppressLint("ResourceType")
-                        public void run() {
-                            //Captura el mensaje que se ha guardado en HandsResultImageView
-                            String u = imageView.getMensaje();
-                            //Crear TextView para ser agregado en el chat
-                            if(u != null){
-                                TextView chat = new TextView(Translate.this);
-                                chat.setText(u);
-                                chat.setId(1);
-                                chat.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                                ((LinearLayout) linearLayout).addView(chat);
-                            }
-                        }
-                    }, 500);
+                    //String u = this.reconocerSena(handsResult);
+                    String u = imageView.getMensaje();
+                    if(u != null || u != ""){
+                        //Actualiza el chat despues de cargar imagen
+                        handler.postDelayed(new Runnable() {
+                            @SuppressLint("ResourceType")
+                            public void run() {
+                                //Captura el mensaje que se ha guardado en HandsResultImageView
+                                //String u = imageView.getMensaje();
+                                //Crear TextView para ser agregado en el chat
+                                    TextView chat = new TextView(Translate.this);
+                                    chat.setText(u);
+                                    chat.setId(1);
+                                    chat.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                                    ((LinearLayout) linearLayout).addView(chat);
+                                }
+                        }, 500);
+                    }
                 });
 
         hands.setErrorListener((message, e) -> Log.e(TAG, "MediaPipe Hands error:" + message));
@@ -349,25 +353,27 @@ public class Translate extends AppCompatActivity {
 
         hands.setResultListener(
             handsResult -> {
-                glSurfaceView.setRenderData(handsResult);
-                glSurfaceView.requestRender();
+                if(!handsResult.multiHandLandmarks().isEmpty() || handsResult.multiHandLandmarks() != null){
+                    glSurfaceView.setRenderData(handsResult);
+                    glSurfaceView.requestRender();
 
-                //--Mensaje CHAT---------------------------------------------
-                View linearLayout =  findViewById(R.id.linearChat);
-                //Actualiza despues de cargar imagen
-                handler.postDelayed(new Runnable() {
-                    @SuppressLint("ResourceType")
-                    public void run() {
-                        String u = hRGIRenderer.getMensaje();
-                        if(u != null){
-                            TextView chat = new TextView(Translate.this);
-                            chat.setText(u);
-                            chat.setId(1);
-                            chat.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                            ((LinearLayout) linearLayout).addView(chat);
-                        }
+                    //--Mensaje CHAT---------------------------------------------
+                    String u = hRGIRenderer.getMensaje();
+                    if(u != "" || u != " " || u != null){
+                        View linearLayout =  findViewById(R.id.linearChat);
+                        //Actualiza despues de cargar imagen
+                        handler.postDelayed(new Runnable() {
+                            @SuppressLint("ResourceType")
+                            public void run() {
+                                TextView chat = new TextView(Translate.this);
+                                chat.setText(u);
+                                chat.setId(1);
+                                chat.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                                ((LinearLayout) linearLayout).addView(chat);
+                            }
+                        }, 1000);
                     }
-                }, 1000);
+                }
             }
         );
 

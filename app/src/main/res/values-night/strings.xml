@@ -12,7 +12,7 @@
     <string name="load_video" translatable="false">Cargar Video</string>
     <string name="start_camera" translatable="false">Abrir Camara</string>
     <string name="instruction" translatable="false">Please press any button above to start</string>
-    <string name="mensajeChat" translatable="false">Chat: </string>
+    <string name="mensajeChat" translatable="false">Traducción: </string>
     <string name="text_subtitulo">Subtitulo</string>
     <string name="text_titulo">Titulo</string>
     <string name="text_img_senas_aprendizaje">Aprendizaje del Lenguaje de Señas Colombiano</string>

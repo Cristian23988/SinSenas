@@ -107,7 +107,7 @@ public class FullscreenActivity extends AppCompatActivity {
                 Intent intent = new Intent(contexto, MainActivity.class);
                 startActivity(intent);
             }
-        }, 5000);
+        }, 3000);
     }
 
     /**
