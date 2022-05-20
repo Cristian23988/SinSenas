@@ -29,6 +29,7 @@ import com.google.mediapipe.solutions.hands.HandsResult;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
 import java.util.List;
 
 /** A custom implementation of {@link ResultGlRenderer} to render {@link HandsResult}. */
@@ -89,38 +90,133 @@ public class HandsResultGlRenderer implements ResultGlRenderer<HandsResult> {
 
   @Override
   public void renderResult(HandsResult result, float[] projectionMatrix) {
-    if (result == null) {
+    if (result == null){
+        return;
+    }
+    if(result.multiHandLandmarks().isEmpty() || result.multiHandLandmarks() == null){
       return;
     }
+
     GLES20.glUseProgram(program);
     GLES20.glUniformMatrix4fv(projectionMatrixHandle, 1, false, projectionMatrix, 0);
     GLES20.glLineWidth(CONNECTION_THICKNESS);
 
+    this.reconocerSena(result);
+
     int numHands = result.multiHandLandmarks().size();
     for (int i = 0; i < numHands; ++i) {
       boolean isLeftHand = result.multiHandedness().get(i).getLabel().equals("Left");
-      /*drawConnections(
+      drawConnections(
           result.multiHandLandmarks().get(i).getLandmarkList(),
-          isLeftHand ? LEFT_HAND_CONNECTION_COLOR : RIGHT_HAND_CONNECTION_COLOR);*/
-      String mensaje = "";
-      for (NormalizedLandmark landmark : result.multiHandLandmarks().get(i).getLandmarkList()) {
+          isLeftHand ? LEFT_HAND_CONNECTION_COLOR : RIGHT_HAND_CONNECTION_COLOR);
+
+      /*for (NormalizedLandmark landmark : result.multiHandLandmarks().get(i).getLandmarkList()) {
         // Draws the landmark.
-        drawCircle(
-            landmark.getX(),
-            landmark.getY(),
-            isLeftHand ? LEFT_HAND_LANDMARK_COLOR : RIGHT_HAND_LANDMARK_COLOR);
+        float[] handColor = isLeftHand ? LEFT_HAND_LANDMARK_COLOR : RIGHT_HAND_LANDMARK_COLOR;
+        drawCircle( landmark.getX(), landmark.getY(), handColor);
         // Draws a hollow circle around the landmark.
-          mensaje += "X: ";
+          /*mensaje += "X: ";
           mensaje += String.valueOf(landmark.getX());
           mensaje += "\n";
           /*drawHollowCircle(
                   landmark.getX(),
                   landmark.getY(),
                   isLeftHand ? LEFT_HAND_HOLLOW_CIRCLE_COLOR : RIGHT_HAND_HOLLOW_CIRCLE_COLOR);
-           */
-      }
-      this.setMensaje(mensaje);
+
+      }*/
     }
+  }
+
+  /** Calcular distancia entre dos puntos*/
+  private double calcularDistancia(double x1, double y1, double x2, double y2) {
+    double diferenciaY = Math.abs(y2 - y1);
+    double diferenciaX = Math.abs(x2 - x1);
+
+    //Retorna la distancia eucladiana evitando desbordamiento si es muy grande el resultado.
+    return Math.hypot(diferenciaY, diferenciaX);
+  }
+
+  /** Reconocer Seña*/
+  private void reconocerSena(HandsResult result) {
+    //Referencia de base y dedos
+    int refBase = 0;
+    int refMitadPulgar = 3;
+    int refPulgar = 4;
+    int refBaseIndice = 5;
+    int refMitadIndice = 6;
+    int refIndice = 8;
+    int refBaseMedio = 9;
+    int refMitadMedio = 10;
+    int refMedio = 12;
+    int refBaseAnular = 13;
+    int refMitadAnular = 14;
+    int refAnteAnular = 15;
+    int refAnular = 16;
+    int refBaseMenique = 17;
+    int refMitadMenique = 18;
+    int refMenique = 20;
+
+    //Mostrar mensaje
+    //Numero de manos
+    int numHands = result.multiHandLandmarks().size();
+    String mensaje = "";
+
+    //Cargar datos de la mano en mensaje
+    for (int i = 0; i < numHands; ++i) {
+      //Lista de coordenada de los puntos
+      List<NormalizedLandmark> handLandmarkList = result.multiHandLandmarks().get(i).getLandmarkList();
+
+      //Ejemplo conexion = {{3.0,5.0,0.0,1.2}} => {{Punto A, Punto B, Distancia minima, Distancia maxima}}
+      ArrayList<Double> conexion = new ArrayList<Double>();
+      double[][] sena_abc_a = new double[][]{{refMitadPulgar*1.0, refBaseIndice*1.0, 0.0, 0.16},{refMitadIndice*1.0, refMitadMedio*1.0, 0.0, 0.16},{refIndice*1.0, refMedio*1.0, 0.0, 0.16},{refMitadMedio*1.0, refMitadAnular*1.0, 0.0, 0.16},{refMedio*1.0, refAnular*1.0, 0.0, 0.16},{refMitadAnular*1.0, refMitadMenique*1.0, 0.0, 0.16},{refAnteAnular*1.0, refMenique*1.0, 0.0, 0.16}};
+      int[] arriba = new int[5]; //Dedos arriba
+      int[] abajo = new int[5]; //Dedos abajo
+      double auxPulgar = 0.0;
+
+      //Base de la mano
+      double x_base1 = handLandmarkList.get(refBase).getX();
+      double y_base1 = handLandmarkList.get(refBase).getY();
+      double x_base3 = handLandmarkList.get(refMitadPulgar).getX();
+      double y_base3 = handLandmarkList.get(refMitadPulgar).getY();
+
+      int countBase2 = 5;
+      int dedo = 8;
+
+      for(int ii = 0; ii <= 3; ii++){
+        double x_base2 = handLandmarkList.get(countBase2).getX();
+        double y_base2 = handLandmarkList.get(countBase2).getY();
+
+        double x_dedo = handLandmarkList.get(dedo).getX();
+        double y_dedo = handLandmarkList.get(dedo).getY();
+
+        double distanciaBase = this.calcularDistancia(x_base1, y_base1, x_base2, y_base2);
+        double distanciaDedo = this.calcularDistancia(x_base1, y_base1, x_dedo, y_dedo);
+
+        if(distanciaDedo < distanciaBase ){
+          arriba[ii] = dedo;
+        }else{
+          abajo[ii] = dedo;
+        }
+
+        auxPulgar = this.calcularDistancia(x_base2, y_base2, x_base3, y_base3);
+        //guarda si el pulgar esta cerca del dedo actual
+        if(auxPulgar > 0.0 && auxPulgar < sena_abc_a[0][3]){
+          conexion.add(refMitadPulgar*1.0);
+          conexion.add(dedo*1.0);
+          conexion.add(auxPulgar);
+        }
+        countBase2 += 4;
+        dedo += 4;
+      }
+
+      if(conexion.size() > 0) {
+        if (conexion.get(2) > sena_abc_a[0][2] && conexion.get(2) < sena_abc_a[0][3]) {
+          mensaje += "Vocal A";
+        }
+      }
+    }
+    //Guardar valores de mensaje
+    this.setMensaje(mensaje);
   }
 
   /**

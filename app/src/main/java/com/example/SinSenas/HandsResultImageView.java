@@ -109,65 +109,53 @@ public class HandsResultImageView extends AppCompatImageView {
   private void reconocerSena(HandsResult result) {
     //Referencia de base y dedos
     int refBase = 0;
-    /*
+    int refMitadPulgar = 3;
     int refPulgar = 4;
     int refBaseIndice = 5;
+    int refMitadIndice = 6;
     int refIndice = 8;
     int refBaseMedio = 9;
+    int refMitadMedio = 10;
     int refMedio = 12;
     int refBaseAnular = 13;
+    int refMitadAnular = 14;
+    int refAnteAnular = 15;
     int refAnular = 16;
     int refBaseMenique = 17;
+    int refMitadMenique = 18;
     int refMenique = 20;
-    ClassificationProto.Classification lef =  result.multiHandedness().get(0);*/
+    //ClassificationProto.Classification lef =  result.multiHandedness().get(0);
 
     //Mostrar mensaje
     //Numero de manos
     int numHands = result.multiHandLandmarks().size();
     String mensaje = "";
 
-    //Seña de dos manos
-    if(numHands > 1){
-      //Cargar datos de la mano en mensaje
-      for (int i = 0; i < numHands; ++i) {
-        mensaje += i == 0 ? "Mano izquierda:\n" : "\nMano derecha:\n";
-        //Lista de coordenada de los puntos
-        List<NormalizedLandmark> handLandmarkList = result.multiHandLandmarks().get(i).getLandmarkList();
-
-        //Base de la mano
-        double x_base1 = handLandmarkList.get(refBase).getX();
-        double y_base1 = handLandmarkList.get(refBase).getY();
-
-        int countBase2 = 2;
-        int dedo = 4;
-        for(int ii = 0; ii <= 4; ii++){
-          double x_base2 = handLandmarkList.get(countBase2).getX();
-          double y_base2 = handLandmarkList.get(countBase2).getY();
-
-          double x_dedo = handLandmarkList.get(dedo).getX();
-          double y_dedo = handLandmarkList.get(dedo).getY();
-
-          double distanciaBase = this.calcularDistancia(x_base1, y_base1, x_base2, y_base2);
-          double distanciaDedo = this.calcularDistancia(x_base1, y_base1, x_dedo, y_dedo);
-
-          if(distanciaDedo < distanciaBase ){
-            mensaje += "Dedo abajo: "+dedo+"\n";
-          }
-          countBase2 = countBase2 == 2 ? countBase2 + 3 : countBase2 + 4;
-          dedo += 4;
-        }
-      }
-    }else{
+    //Cargar datos de la mano en mensaje
+    for (int i = 0; i < numHands; ++i) {
+      //mensaje += result.multiHandedness().get(i).getLabel().equals("Left") ? "Mano izquierda:\n" : "\nMano derecha:\n";
       //Lista de coordenada de los puntos
-      List<NormalizedLandmark> handLandmarkList = result.multiHandLandmarks().get(0).getLandmarkList();
+      List<NormalizedLandmark> handLandmarkList = result.multiHandLandmarks().get(i).getLandmarkList();
+
+      //Ejemplo conexion = {{3.0,5.0,0.0,1.2}} => {{Punto A, Punto B, Distancia minima, Distancia maxima}}
+      ArrayList<Double> conexion = new ArrayList<Double>();
+      double[][] sena_abc_a = new double[][]{{refMitadPulgar*1.0, refBaseIndice*1.0, 0.0, 0.16},{refMitadIndice*1.0, refMitadMedio*1.0, 0.0, 0.16},{refIndice*1.0, refMedio*1.0, 0.0, 0.16},{refMitadMedio*1.0, refMitadAnular*1.0, 0.0, 0.16},{refMedio*1.0, refAnular*1.0, 0.0, 0.16},{refMitadAnular*1.0, refMitadMenique*1.0, 0.0, 0.16},{refAnteAnular*1.0, refMenique*1.0, 0.0, 0.16}};
+      int[] arriba = new int[5]; //Dedos arriba
+      int[] abajo = new int[5]; //Dedos abajo
+      double auxPulgar = 0.0;
 
       //Base de la mano
       double x_base1 = handLandmarkList.get(refBase).getX();
       double y_base1 = handLandmarkList.get(refBase).getY();
 
-      int countBase2 = 2;
-      int dedo = 4;
-      for(int i = 0; i <= 4; i++){
+      //Mitad del dedo pulgar
+      double x_base3 = handLandmarkList.get(refMitadPulgar).getX();
+      double y_base3 = handLandmarkList.get(refMitadPulgar).getY();
+
+      int countBase2 = 5;//Base del indice
+      int dedo = 8;//indice
+
+      for(int ii = 0; ii <= 3; ii++){
         double x_base2 = handLandmarkList.get(countBase2).getX();
         double y_base2 = handLandmarkList.get(countBase2).getY();
 
@@ -177,12 +165,43 @@ public class HandsResultImageView extends AppCompatImageView {
         double distanciaBase = this.calcularDistancia(x_base1, y_base1, x_base2, y_base2);
         double distanciaDedo = this.calcularDistancia(x_base1, y_base1, x_dedo, y_dedo);
 
+        //agrega los dedos que estan abajo o arriba
         if(distanciaDedo < distanciaBase ){
-          mensaje += "Dedo abajo: "+dedo+"\n";
+          arriba[ii] = dedo;
+        }else{
+          abajo[ii] = dedo;
         }
-        countBase2 = countBase2 == 2 ? countBase2 + 3 : countBase2 + 4;
+
+        auxPulgar = this.calcularDistancia(x_base2, y_base2, x_base3, y_base3);
+
+        //guarda si el pulgar esta cerca del dedo actual
+        if(auxPulgar > 0.0 && auxPulgar < sena_abc_a[0][3]){
+          conexion.add(refMitadPulgar*1.0);
+          conexion.add(dedo*1.0);
+          conexion.add(auxPulgar);
+        }
+
+        //countBase2 = countBase2 == 2 ? countBase2 + 3 : countBase2 + 4;
+        countBase2 += 4;
         dedo += 4;
       }
+
+      double[] auxConexion = new double[]{refMitadPulgar, dedo, auxPulgar};
+
+      if(conexion.size() > 0) {
+        if (conexion.get(2) > sena_abc_a[0][2] && conexion.get(2) < sena_abc_a[0][3]) {
+          mensaje += "Vocal A";
+        }
+      }
+
+      /*String con = String.valueOf(conexion.size());
+        mensaje += "Tamaño: "+con+" ";
+        con = conexion.get(0).toString();
+        mensaje += "mitad: "+con+" ";
+        con = conexion.get(1).toString();
+        mensaje += "dedo: "+con+" ";
+        con = conexion.get(2).toString();
+        mensaje += "distancia: "+con;*/
     }
 
     //Guardar valores de mensaje
