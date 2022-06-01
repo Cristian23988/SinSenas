@@ -57,9 +57,12 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_TABLE_PUNTO = "CREATE TABLE " + TABLE_PUNTO + "(" +
             "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            "x REAL NOT NULL,"+
-            "Y REAL NOT NULL,"+
-            "idSena INTEGER NOT NULL)";
+            "idSena INTEGER NOT NULL,"+
+            "isUp REAL NOT NULL,"+
+            "puntoA REAL NOT NULL,"+
+            "puntoB REAL NOT NULL,"+
+            "distanciaMin REAL NOT NULL,"+
+            "distanciaMax REAL NOT NULL)";
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

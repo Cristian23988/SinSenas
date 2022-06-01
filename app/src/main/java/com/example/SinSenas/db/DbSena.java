@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 
 import com.example.SinSenas.Class.Punto;
 import com.example.SinSenas.Class.ModeloTemario;
+import com.example.SinSenas.Class.Sena;
 
 import java.util.ArrayList;
 
@@ -44,22 +45,20 @@ public class DbSena extends DbHelper {
                 ex.toString();
             }
             return id;
-
     }
 
-    public ArrayList<ModeloTemario> mostrarSena() {
+    public ArrayList<Sena> mostrarSena() {
         DbHelper dbHelper=new DbHelper(context);
         SQLiteDatabase db=dbHelper.getWritableDatabase();
-        ArrayList<ModeloTemario>ListaSena=new ArrayList<>();
-        ModeloTemario senas=null;
+        ArrayList<Sena>ListaSena=new ArrayList<>();
+        Sena senas=null;
         Cursor cursorSena=null;
         cursorSena=db.rawQuery("SELECT * FROM "+TABLE_SENA,null );
         if(cursorSena.moveToFirst()){
             do{
-                senas=new ModeloTemario();
+                senas=new Sena();
                 senas.setId(cursorSena.getInt(0));
-                senas.setImagen(cursorSena.getInt(1));
-                senas.setNombre(cursorSena.getString(2));
+                senas.setSena(cursorSena.getString(1));
                 ListaSena.add(senas);
             }while(cursorSena.moveToNext());
         }

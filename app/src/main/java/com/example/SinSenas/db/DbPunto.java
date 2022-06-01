@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -31,15 +32,18 @@ public class DbPunto extends DbHelper {
         return false;
     }
 
-    public long insertPunto(float x,float y, int idSena) {
+    public long insertPunto(int idSena, double isUp, double puntoA, double puntoB, double distanciaMin, double distanciaMax) {
         long id = 0;
         try {
             DbHelper dbHelper = new DbHelper(context);
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             ContentValues values = new ContentValues();
-            values.put("x", x);
-            values.put("Y", y);
             values.put("idSena", idSena);
+            values.put("isUp", isUp);
+            values.put("puntoA", puntoA);
+            values.put("puntoB", puntoB);
+            values.put("distanciaMin", distanciaMin);
+            values.put("distanciaMax", distanciaMax);
             id = db.insert(TABLE_PUNTO, null, values);
         } catch (Exception ex) {
             ex.toString();
@@ -58,9 +62,12 @@ public class DbPunto extends DbHelper {
             do{
                 punto=new Punto();
                 punto.setId(cursorPunto.getInt(0));
-                punto.setVectorX(cursorPunto.getFloat(1));
-                punto.setVectorY(cursorPunto.getFloat(2));
-                punto.setId(cursorPunto.getInt(3));
+                punto.setIdSena(cursorPunto.getInt(1));
+                punto.setIsUp(cursorPunto.getDouble(2));
+                punto.setPuntoA(cursorPunto.getDouble(3));
+                punto.setPuntoB(cursorPunto.getDouble(4));
+                punto.setDistanciaMin(cursorPunto.getDouble(5));
+                punto.setDistanciaMax(cursorPunto.getDouble(6));
                 ListaPunto.add(punto);
             }while(cursorPunto.moveToNext());
         }
@@ -68,5 +75,4 @@ public class DbPunto extends DbHelper {
         Log.i("", String.valueOf(ListaPunto));
         return ListaPunto;
     }
-
 }

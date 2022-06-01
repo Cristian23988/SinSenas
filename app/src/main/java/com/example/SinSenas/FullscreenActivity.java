@@ -20,6 +20,8 @@ import com.example.SinSenas.databinding.ActivityFullscreenBinding;
 import com.example.SinSenas.db.DbCatego;
 import com.example.SinSenas.db.DbDescripcion;
 import com.example.SinSenas.db.DbHelper;
+import com.example.SinSenas.db.DbPunto;
+import com.example.SinSenas.db.DbSena;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -131,6 +133,8 @@ public class FullscreenActivity extends AppCompatActivity {
     public void createDB() {
         DbHelper dbHelper = new DbHelper(contexto);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.delete("sena",null,null);
+        db.delete("punto",null,null);
         db.delete("categorias",null,null);
         db.delete("descripcion",null,null);
         if (db != null) {
@@ -141,6 +145,26 @@ public class FullscreenActivity extends AppCompatActivity {
     }
 
     public void createDatosInicio() {
+        //---------------------------------SEÑAS
+        //Referencia de puntos de los dedos
+        int[] refBaseDedos = new int[]{0,2,5,9,13,17}; //{base, pulgar, indice, medio, anular, menique}
+        int[] refDedos = new int[]{4,8,12,16,20}; //{pulgar, indice, medio, anular, menique}
+        int[] refMitadDedos = new int[]{3,6,10,14,18}; //{pulgar, indice, medio, anular, menique}
+        double[][] sena_abc_a = new double[][]{{refDedos[0]*1.0,refMitadDedos[0]*1.0, refMitadDedos[1]*1.0, 0.0, 0.18},{0.0,refMitadDedos[1]*1.0, refMitadDedos[2]*1.0, 0.0, 0.28},{0.0,refDedos[1]*1.0, refDedos[2]*1.0, 0.0, 0.28},{0.0,refMitadDedos[2]*1.0, refMitadDedos[3]*1.0, 0.0, 0.40},{0.0,refDedos[2]*1.0, refDedos[3]*1.0, 0.0, 0.40},{0.0,refMitadDedos[3]*1.0, refMitadDedos[4]*1.0, 0.0, 0.53},{0.0,(refMitadDedos[4]+1)*1.0, refDedos[4]*1.0, 0.0, 0.16}};
+        double[][] sena_abc_b = new double[][]{{refDedos[0]*1.0,refDedos[0]*1.0, refBaseDedos[3]*1.0, 0.0, 0.18},{refDedos[1]*1.0,refMitadDedos[1]*1.0, refMitadDedos[2]*1.0, 0.0, 0.28},{refDedos[1]*1.0,refDedos[1]*1.0, refDedos[2]*1.0, 0.0, 0.28},{refDedos[2]*1.0,refMitadDedos[2]*1.0, refMitadDedos[3]*1.0, 0.0, 0.40},{refDedos[2]*1.0,refDedos[2]*1.0, refDedos[3]*1.0, 0.0, 0.40},{refDedos[3]*1.0,refMitadDedos[3]*1.0, refMitadDedos[4]*1.0, 0.0, 0.53},{refDedos[4]*1.0,(refMitadDedos[4]+1)*1.0, refDedos[4]*1.0, 0.0, 0.16}};
+        double[][][] arrSenas = new double[][][]{sena_abc_a,sena_abc_b};
+        String[] senas = new String[]{"Vocal A","Vocal B"};
+        DbSena dbSena = new DbSena(contexto);
+        DbPunto dbPunto = new DbPunto(contexto);
+
+        //Toast.makeText(this.contexto,arrSenas.length+" : "+arrSenas[0].length+" : "+arrSenas[0][1][0],Toast.LENGTH_LONG).show();
+        for (int i = 0; i < senas.length; i++){
+            int id = (int) dbSena.insertSena(senas[i]);
+            for (int j = 0; j < arrSenas[i].length; j++){
+                dbPunto.insertPunto(id,arrSenas[i][j][0],arrSenas[i][j][1],arrSenas[i][j][2],arrSenas[i][j][3],arrSenas[i][j][4]);
+            }
+        }
+
         //---------------------------------CATEGORIAS
         String[][] categorias = {{"Saludos","Activo"}, {"Alfabeto","Activo"},{"Diccionario","Inactivo"}, {"Expresiones","Inactivo"}};
         DbCatego dbcatego = new DbCatego(contexto);
