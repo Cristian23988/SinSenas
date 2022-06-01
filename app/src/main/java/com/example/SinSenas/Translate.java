@@ -23,10 +23,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 // ContentResolver dependency
+import com.example.SinSenas.Class.Punto;
+import com.example.SinSenas.Class.Sena;
 import com.example.SinSenas.databinding.TranslateActivityMainBinding;
+import com.example.SinSenas.db.DbPunto;
+import com.example.SinSenas.db.DbSena;
 import com.google.mediapipe.formats.proto.LandmarkProto;
 import com.google.mediapipe.solutioncore.CameraInput;
 import com.google.mediapipe.solutioncore.SolutionGlSurfaceView;
@@ -100,6 +105,103 @@ public class Translate extends AppCompatActivity {
         setupStaticImageDemoUiComponents();//Funcion imagen
         setupVideoDemoUiComponents();//Funcion video
         setupLiveDemoUiComponents();//Funcion tiempo real
+    }
+
+    /** Calcular distancia entre dos puntos*/
+    private double calcularDistancia(double x1, double y1, double x2, double y2) {
+        double diferenciaY = Math.abs(y2 - y1);
+        double diferenciaX = Math.abs(x2 - x1);
+
+        //Retorna la distancia eucladiana evitando desbordamiento si es muy grande el resultado.
+        return Math.hypot(diferenciaY, diferenciaX);
+    }
+
+    /** Reconocer Seña
+     * @return*/
+    private String reconocerSena(HandsResult result) {
+        //Referencia de puntos de los dedos
+        int[] refBaseDedos = new int[]{0,2,5,9,13,17}; //{base, pulgar, indice, medio, anular, menique}
+        int[] refDedos = new int[]{4,8,12,16,20}; //{pulgar, indice, medio, anular, menique}
+        int[] refDedosA = new int[]{3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4,4,6,8,10,12,14,15};
+        int[] refDedosB = new int[]{5,9,13,17,6,10,14,18,8,12,16,20,5,9,13,17,6,10,14,18,8,12,16,20,10,12,14,16,18,20};
+        String mensaje = "";
+
+        //Numero de manos
+        int numHands = result.multiHandLandmarks().size();
+
+        //Cargar datos de la mano en mensaje
+        for (int i = 0; i < numHands; ++i) {
+            //Lista de coordenada de los puntos
+            List<LandmarkProto.NormalizedLandmark> handLandmarkList = result.multiHandLandmarks().get(i).getLandmarkList();
+
+            ArrayList<Double> conexion = new ArrayList<Double>();
+            double[] arriba = new double[5]; //Dedos arriba
+            double distanciaDedos = 0.0;
+
+            //Guardas dedos arriba
+            for(int j = 0; j<5;j++){
+                double distanciaBase = this.calcularDistancia(handLandmarkList.get(refBaseDedos[0]).getX(), handLandmarkList.get(refBaseDedos[0]).getY(), handLandmarkList.get(refBaseDedos[j+1]).getX(), handLandmarkList.get(refBaseDedos[j+1]).getY());
+                double distanciaDedo = this.calcularDistancia(handLandmarkList.get(refBaseDedos[0]).getX(), handLandmarkList.get(refBaseDedos[0]).getY(), handLandmarkList.get(refDedos[j]).getX(), handLandmarkList.get(refDedos[j]).getY());
+                //agrega los dedos que estan abajo o arriba
+                if(distanciaDedo > distanciaBase ){
+                    arriba[j] = refDedos[j]*1.0;
+                }
+            }
+
+            //Guardar distancias entre dedos
+            ArrayList<Punto> ListaConexiones = new ArrayList<>();
+            Punto punto = null;
+            for(int j = 0 ; j < refDedosA.length;j++) {
+                distanciaDedos = this.calcularDistancia(handLandmarkList.get(refDedosA[j]).getX(), handLandmarkList.get(refDedosA[j]).getY(), handLandmarkList.get(refDedosB[j]).getX(), handLandmarkList.get(refDedosB[j]).getY());
+                punto = new Punto();
+                punto.setPuntoA(refDedosA[j] * 1.0);
+                punto.setPuntoB(refDedosB[j] * 1.0);
+                punto.setDistanciaMin(0.0);
+                punto.setDistanciaMax(distanciaDedos);
+                ListaConexiones.add(punto);
+            }
+
+            //comparar datos con la BD
+            boolean isContinue = true;
+            ArrayList<Punto> ListaPunto = new ArrayList<>();
+            DbPunto dbpunto = new DbPunto(this);
+            ArrayList<Sena> ListaSena = new ArrayList<>();
+            DbSena dbsena = new DbSena(this);
+            ListaSena = dbsena.mostrarSena();
+
+            for(Sena sen : ListaSena) {
+                ListaPunto = dbpunto.mostrarPunto(sen.getId());
+                int cont = 1;
+                for (Punto punt : ListaPunto) {
+                    for (Punto conex : ListaConexiones) {
+                        if(arriba[0] == punt.getIsUp() || arriba[1] == punt.getIsUp() || arriba[2] == punt.getIsUp() || arriba[3] == punt.getIsUp()) {
+                            if (conex.getPuntoA() == punt.getPuntoA() && conex.getPuntoB() == punt.getPuntoB()) {
+                                if (conex.getDistanciaMax() > punt.getDistanciaMin() && conex.getDistanciaMax() < punt.getDistanciaMax()) {
+                                    cont++;
+                                    break;
+                                }
+                                break;
+                            }
+                        }
+                    }
+
+                    if (cont == ListaPunto.size()) {
+                        mensaje += sen.getSena();
+                        isContinue = false;
+                        break;
+                    }
+                }
+                if(!isContinue){
+                    break;
+                }
+            }
+        }
+
+        //Retornar mensaje reconocido
+        if(mensaje == "" || mensaje == " " || mensaje == "  "){
+            mensaje = null;
+        }
+        return mensaje;
     }
 
     @Override
@@ -242,15 +344,12 @@ public class Translate extends AppCompatActivity {
         //--Mensaje CHAT---------------------------------------------
                     //Elementos del chat
                     View linearLayout =  findViewById(R.id.linearChat);
-                    //String u = this.reconocerSena(handsResult);
-                    String u = imageView.getMensaje();
-                    if(u != null || u != ""){
+                    String u = this.reconocerSena(handsResult);
+                    if(u != null && u != "" && u != " " && u != "  "){
                         //Actualiza el chat despues de cargar imagen
                         handler.postDelayed(new Runnable() {
                             @SuppressLint("ResourceType")
                             public void run() {
-                                //Captura el mensaje que se ha guardado en HandsResultImageView
-                                //String u = imageView.getMensaje();
                                 //Crear TextView para ser agregado en el chat
                                     TextView chat = new TextView(Translate.this);
                                     chat.setText(u);
@@ -258,7 +357,7 @@ public class Translate extends AppCompatActivity {
                                     chat.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                                     ((LinearLayout) linearLayout).addView(chat);
                                 }
-                        }, 500);
+                        }, 50);
                     }
                 });
 
@@ -358,8 +457,8 @@ public class Translate extends AppCompatActivity {
                     glSurfaceView.requestRender();
 
                     //--Mensaje CHAT---------------------------------------------
-                    String u = hRGIRenderer.getMensaje();
-                    if(u != "" || u != " " || u != null){
+                    String u = this.reconocerSena(handsResult);
+                    if(u != null && u != "" && u != " " && u != "  "){
                         View linearLayout =  findViewById(R.id.linearChat);
                         //Actualiza despues de cargar imagen
                         handler.postDelayed(new Runnable() {
@@ -371,7 +470,7 @@ public class Translate extends AppCompatActivity {
                                 chat.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                                 ((LinearLayout) linearLayout).addView(chat);
                             }
-                        }, 1000);
+                        }, 500);
                     }
                 }
             }

@@ -5,12 +5,12 @@ import java.util.ArrayList;
 public class Sena {
     int id;
     String sena;
-    ArrayList<Punto> puntos;
 
-    public Sena(int id, String sena, ArrayList<Punto> puntos) {
+    public Sena() {
+    }
+    public Sena(int id, String sena) {
         this.id = id;
         this.sena = sena;
-        this.puntos = puntos;
     }
 
     public int getId() {
@@ -27,13 +27,5 @@ public class Sena {
 
     public void setSena(String sena) {
         this.sena = sena;
-    }
-
-    public ArrayList<Punto> getPuntos() {
-        return puntos;
-    }
-
-    public void setPuntos(ArrayList<Punto> puntos) {
-        this.puntos = puntos;
     }
 }
