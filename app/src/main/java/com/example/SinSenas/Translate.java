@@ -169,6 +169,11 @@ public class Translate extends AppCompatActivity {
             DbSena dbsena = new DbSena(this);
             ListaSena = dbsena.mostrarSena();
 
+            /*for (Punto conex : ListaConexiones) {
+                mensaje += conex.getPuntoA() + " " + conex.getPuntoB() + " " + conex.getDistanciaMax() + "\n";
+            }
+            mensaje += "\n"+arriba[0]+" "+arriba[1]+" "+arriba[2]+" "+arriba[3]+" "+arriba[4]+"\n";*/
+
             for(Sena sen : ListaSena) {
                 ListaPunto = dbpunto.mostrarPunto(sen.getId());
                 int cont = 1;
